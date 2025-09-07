@@ -1,0 +1,78 @@
+@startuml
+
+class Clientes {
+  - idCliente : int
+  - nombre : String
+  - telefonos : {String}
+  - fidelidad : String
+}
+
+class Mesas {
+  - numMesa : int
+  - estado : String
+  - capacidad : int
+}
+
+class Personal {
+  - idPersonal : int
+  - nombre : String
+  - rol : String
+}
+
+class Reserva {
+  - fecha : date
+  - hora : time
+}
+
+class Asigna {
+  - seguimiento : String
+}
+
+class Consumisiones {
+  - idConsumision : int
+  - estado : String
+  - tiempo : time
+}
+
+class Contiene {
+  - cantidad : int
+}
+
+class Productos {
+  - idProducto : int
+  - nombre : String
+  - categoria : String
+  - precio : float
+  - descripcion : String
+  - estado : String
+}
+
+class Facturas {
+  - idFactura : int
+  - fecha : date
+  - hora : time
+  - descuento : float
+  - impuestos : float
+  - cobroServicio : float
+  - metodoDePago : {String}
+}
+
+class Reportes {
+  - idReporte : int
+  - fecha : date
+  - hora : time
+  - tipoReporte : String
+  - detalle : String
+}
+
+Clientes " * " -- " " Reserva
+Reserva " " -- "*" Mesas
+Mesas " * " -- " " Asigna
+Asigna " " -- " 1 " Personal
+Mesas " 1 " -- " * " Consumisiones : Efectúa
+Consumisiones " * " -- " " Contiene
+Contiene " " -- "1" Productos
+Facturas " 1 " -- " * " Consumisiones : Registra
+Facturas " 1 " -- " 1 " Reportes : Genera
+
+@enduml

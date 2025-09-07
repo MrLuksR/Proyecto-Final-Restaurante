@@ -60,7 +60,7 @@ class Facturas {
 class Reportes {
   - idReporte : int
   - fecha : date
-  - hora : time
+  - hora : localtime
   - tipoReporte : String
   - detalle : String
 }

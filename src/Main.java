@@ -1,8 +1,7 @@
-//Inicio de proyecto:
+//Inicio de proyecto
 
 public class Main {
     public static void main(String[] args) {
-
 
 
 

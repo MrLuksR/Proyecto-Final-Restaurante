@@ -3,17 +3,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionBD {
-    public static Connection obtenerConexion() {
-        String url = "jdbc:mysql://localhost:3306/*****";
-        String user = "root";
-        String password = "******";
+    private static final String URL  =
+            "jdbc:mysql://localhost:3306/******";
+    private static final String USER = "root";
+    private static final String PASS = "******";
 
-        try {
-            return DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            System.out.println("Error al conectar con la base de datos:");
-            e.printStackTrace();
-            return null;
-        }
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASS);
     }
 }

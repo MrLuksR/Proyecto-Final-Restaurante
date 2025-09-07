@@ -20,8 +20,8 @@ class Personal {
 }
 
 class Reserva {
-  - fecha : date
-  - hora : time
+  - fecha : Localdate
+  - hora : Localtime
 }
 
 class Asigna {

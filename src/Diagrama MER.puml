@@ -44,7 +44,7 @@ class Productos {
   - categoria : String
   - precio : float
   - descripcion : String
-  - estado : String
+  - estado : boolean
 }
 
 class Facturas {

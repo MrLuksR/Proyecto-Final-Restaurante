@@ -22,6 +22,6 @@ public class Mesa {
 
     @Override
     public String toString() {
-        return "Mesa " + numMesa + " - " + (estado ? "Disponible" : "Ocupada") + " - Capacidad: " + capacidad;
+        return "Mesa " + this.numMesa + " - " + (this.estado ? "Disponible" : "Ocupada") + " - Capacidad: " + this.capacidad;
     }
 }

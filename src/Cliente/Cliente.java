@@ -19,20 +19,19 @@ public class Cliente {
         this.telefonos = new ArrayList<>();
     }
 
-    public long getIdCliente() { return idCliente; }
+    public long getIdCliente() { return this.idCliente; }
+    public String getNombre() { return this.nombre; }
+    public List<String> getTelefonos() { return this.telefonos; }
+    public Fidelidad getFidelidad() { return this.fidelidad; }
+
     public void setIdCliente(long idCliente) { this.idCliente = idCliente; }
-
-    public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public List<String> getTelefonos() { return telefonos; }
-    public void agregarTelefono(String telefono) { this.telefonos.add(telefono); }
-
-    public Fidelidad getFidelidad() { return fidelidad; }
     public void setFidelidad(Fidelidad fidelidad) { this.fidelidad = fidelidad; }
+
+    public void agregarTelefono(String telefono) { this.telefonos.add(telefono); }
 
     @Override
     public String toString() {
-        return nombre + " [" + fidelidad + "] - Teléfonos: " + telefonos;
+        return this.nombre + " [" + this.fidelidad + "] - Teléfonos: " + this.telefonos;
     }
 }

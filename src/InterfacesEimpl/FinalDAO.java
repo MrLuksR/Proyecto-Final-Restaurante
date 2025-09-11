@@ -16,7 +16,7 @@ public final class FinalDAO implements GeneralDAO{
     }
 
     @Override
-    public long giardarCliente(Cliente cliente) throws SQLException {
+    public long guardarCliente(Cliente cliente) throws SQLException {
         return 0;
     }
 

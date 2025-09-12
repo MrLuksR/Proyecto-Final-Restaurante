@@ -13,7 +13,7 @@ class Usuario{
 
 interface GeneralDAO{
     long guardarUser(Usuario user)
-    long giardarCliente(Cliente cliente)
+    long guardarCliente(Cliente cliente)
     long guardarComida(Comida com)
     long guardarBebida(Bebida beb)
     long guardarPostre(Postre pos)

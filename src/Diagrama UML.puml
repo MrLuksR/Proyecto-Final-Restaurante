@@ -60,4 +60,16 @@ class Comida extends Producto{
 class Postre extends Producto{
     double calcImp()
 }
+
+' ==== RELACIONES ====
+Cliente --|> Usuario
+FinalDAO ..|> GeneralDAO
+
+Producto <|-- Bebida
+Producto <|-- Comida
+Producto <|-- Postre
+
+Mesa --> Cliente : reservada por
+Mesa --> Personal : atendida por
+
 @enduml

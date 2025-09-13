@@ -2,6 +2,7 @@ package InterfacesEimpl;
 
 import Clientes.Cliente;
 import Mesas.Mesa;
+import Personal.Personal;
 import Productos.Bebida;
 import Productos.Comida;
 import Productos.Postre;
@@ -10,13 +11,12 @@ import java.sql.SQLException;
 
 public final class FinalDAO implements GeneralDAO{
     @Override
-    public long guardarUser(Usuario user) throws SQLException {
-        // ACA HACE TODA LA CONEXION CON LA BASE Y GUARDA LOS DATOS
+    public long guardarCliente(Cliente cli) throws SQLException {
         return 0;
     }
 
     @Override
-    public long guardarCliente(Cliente cliente) throws SQLException {
+    public long guardarPersonal(Personal per) throws SQLException {
         return 0;
     }
 

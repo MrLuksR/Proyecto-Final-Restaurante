@@ -62,9 +62,6 @@ class Postre extends Producto{
 }
 
 ' ==== RELACIONES ====
-Cliente --|> Usuario
-FinalDAO ..|> GeneralDAO
-
 Producto <|-- Bebida
 Producto <|-- Comida
 Producto <|-- Postre

@@ -5,15 +5,14 @@ import java.util.List;
 
 public class Cliente {
 
-
     private String nombre;
     private String apellido;
-    private List<String> telefonos; // Multivaluado
+    private int telefono; // Multivaluado
 
-    public Cliente(String nombre, String apellido) {
+    public Cliente(String nombre, String apellido, int telf) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.telefonos = new ArrayList<>();
+        this.telefono = telf;
     }
 
     // Getters y setters
@@ -23,12 +22,12 @@ public class Cliente {
     public String getApellido() { return this.apellido; }
     public void setApellido(String apellido) {this.apellido = apellido;}
 
-    public List<String> getTelefonos() { return this.telefonos; }
+    public int getTelefono() {return this.telefono;}
 
-    public void agregarTelefono(String telefono) {this.telefonos.add(telefono);}
+    public void agregarTelefono(int telefono) {this.telefono = telefono;}
 
     @Override
     public String toString() {
-        return "Nombre: " + this.nombre + "\nTeléfonos: " + this.telefonos;
+        return "Nombre: " + this.nombre + "\nTeléfono: " + this.telefono;
     }
 }

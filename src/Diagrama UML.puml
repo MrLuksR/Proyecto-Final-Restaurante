@@ -1,16 +1,5 @@
 @startuml
 
-class Usuario{
-    - nombre : String
-    - apellido : String
-    - email : String
-    - username : String
-    - password : String
-    - cedula : int
-    - fechaNacimiento : LocalDate
-    - telefono : int
-}
-
 interface GeneralDAO{
     long guardarUser(Usuario user)
     long guardarCliente(Cliente cliente)
@@ -46,27 +35,27 @@ abstract class Producto {
     - categoria : "
     - stock : boolean
     - descripcion : "
-    double calcImp()
+    + calcImp() : double
 }
 
 class Bebida extends Producto{
-    double calcImp()
+    + calcImp() : double
 }
 
 class Comida extends Producto{
-    double calcImp()
+    + calcImp() : double
 }
 
 class Postre extends Producto{
-    double calcImp()
+    + calcImp() : double
 }
 
 ' ==== RELACIONES ====
-Producto <|-- Bebida
-Producto <|-- Comida
-Producto <|-- Postre
+FinalDAO ..> Cliente : gestiona
+FinalDAO ..> Mesa : administra
+FinalDAO ..> Producto : guarda
 
-Mesa --> Cliente : reservada por
-Mesa --> Personal : atendida por
-
+Cliente "1" -- "*" Mesa : reserva
+Personal "1" -- "*" Mesa : atiende
+Mesa "*" -- "*" Producto : contiene
 @enduml

@@ -22,7 +22,7 @@ public class FormIngreso extends JFrame {
     private JButton btnShowContra;
     private JLabel lblInfoUser;
     private JLabel lblInfoContra;
-    public Connection conn = ConexionBD.getConnection();
+    public Connection conn;
 
     private boolean user, contra, mostrar;
 
@@ -124,6 +124,26 @@ public class FormIngreso extends JFrame {
                 }
             }
         });
+
+        // Listener de txtUsuario
+        txtUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (btnIngresar.isEnabled()){
+                    validarUsuario(txtUser.getText(), pwdContra.getText());
+                }
+            }
+        });
+
+        // Listener de pwdContra
+        pwdContra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (btnIngresar.isEnabled()){
+                    validarUsuario(txtUser.getText(), pwdContra.getText());
+                }
+            }
+        });
     }
 
     void validarIngreso(){
@@ -182,12 +202,14 @@ public class FormIngreso extends JFrame {
         }
     }
 
-    static void main() throws SQLException{
+    static void main() throws SQLException {
+        Connection conn = ConexionBD.getConnection();
+        if (conn == null) return;
         FormIngreso ventanaForm = new FormIngreso();
-        if (ventanaForm.conn == null) return;
+        ventanaForm.conn = conn;
         ventanaForm.setContentPane(ventanaForm.vntIngreso);
         ventanaForm.setBounds(300,200,600,400);
-        ventanaForm.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        ventanaForm.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         ventanaForm.setVisible(true);
     }
 }

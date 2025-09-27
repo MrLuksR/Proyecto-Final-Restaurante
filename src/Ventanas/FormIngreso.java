@@ -29,41 +29,7 @@ public class FormIngreso extends JFrame {
 
     public FormIngreso() throws SQLException {
 
-        getRootPane().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-        ImageIcon tituloImg = new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Titulo.png");
-        //ImageIcon tituloImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Titulo.png").getImage().getScaledInstance(1366,167, Image.SCALE_SMOOTH));
-        ImageIcon abajoImg = new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Abajo.png");
-        //ImageIcon abajoImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Abajo.png").getImage().getScaledInstance(1366,27, Image.SCALE_SMOOTH));
-
-        lblTitulo.setText("");
-        lblTitulo.setVisible(true);
-        lblTitulo.setIcon(tituloImg);
-
-        lblAbajo.setText("");
-        lblAbajo.setVisible(true);
-        lblAbajo.setIcon(abajoImg);
-
-        ImageIcon salirBtn = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Salir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon salirPresBtn = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/SalirPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon ingresarBtn = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Ingresar.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon ingresarPresBtn = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/IngresarPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-
-        btnIngresar.setText("");
-        btnIngresar.setIcon(ingresarBtn);
-        btnIngresar.setPressedIcon(ingresarPresBtn);
-        btnIngresar.setBorderPainted(false);       // Quita el borde
-        btnIngresar.setContentAreaFilled(false);   // Quita el fondo
-        btnIngresar.setFocusPainted(false);        // Quita el resaltado al enfocar
-
-        btnSalir.setText("");
-        btnSalir.setIcon(salirBtn);
-        btnSalir.setPressedIcon(salirPresBtn);
-        btnSalir.setBorderPainted(false);       // Quita el borde
-        btnSalir.setContentAreaFilled(false);   // Quita el fondo
-        btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
-
-
+        setDesign();
 
         // Listener de texto de Usuario
         txtUser.addKeyListener(new KeyAdapter() {
@@ -179,12 +145,13 @@ public class FormIngreso extends JFrame {
                 if (btnIngresar.isEnabled()){
                     validarUsuario(txtUser.getText(), pwdContra.getText());
                 }
+                validarIngreso();
             }
         });
     }
 
     void validarIngreso(){
-        if (contra && contra)
+        if (user && contra)
             btnIngresar.setEnabled(true);
         else
             btnIngresar.setEnabled(false);
@@ -239,6 +206,44 @@ public class FormIngreso extends JFrame {
         }
     }
 
+    void setDesign(){
+        getRootPane().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        String username = System.getenv("USERNAME");
+
+        ImageIcon tituloImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Titulo.png");
+        //ImageIcon tituloImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Titulo.png").getImage().getScaledInstance(1366,167, Image.SCALE_SMOOTH));
+        ImageIcon abajoImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png");
+        //ImageIcon abajoImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Abajo.png").getImage().getScaledInstance(1366,27, Image.SCALE_SMOOTH));
+
+        lblTitulo.setText("");
+        lblTitulo.setVisible(true);
+        lblTitulo.setIcon(tituloImg);
+
+        lblAbajo.setText("");
+        lblAbajo.setVisible(true);
+        lblAbajo.setIcon(abajoImg);
+
+        ImageIcon salirBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Salir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon salirPresBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/SalirPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon ingresarBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Ingresar.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon ingresarPresBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/IngresarPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+
+        btnIngresar.setText("");
+        btnIngresar.setIcon(ingresarBtn);
+        btnIngresar.setPressedIcon(ingresarPresBtn);
+        btnIngresar.setBorderPainted(false);       // Quita el borde
+        btnIngresar.setContentAreaFilled(false);   // Quita el fondo
+        btnIngresar.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        btnSalir.setText("");
+        btnSalir.setIcon(salirBtn);
+        btnSalir.setPressedIcon(salirPresBtn);
+        btnSalir.setBorderPainted(false);       // Quita el borde
+        btnSalir.setContentAreaFilled(false);   // Quita el fondo
+        btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
+    }
+
     /*
     static void main() throws SQLException {
         Connection conn = ConexionBD.getConnection();
@@ -254,9 +259,12 @@ public class FormIngreso extends JFrame {
 
     // Hice este Main para poder abrir la base de datos sin necesidad
     public static void main(String[] args) throws SQLException {
+        Connection conn = ConexionBD.getConnection();
+        if (conn == null) return;
         FormIngreso ventanaForm = new FormIngreso();
+        ventanaForm.conn = conn;
         ventanaForm.setContentPane(ventanaForm.vntIngreso);
-        ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         // Cambiar fondo(verde menta)
         ventanaForm.getContentPane().setBackground(new Color(189, 236, 182));
@@ -264,7 +272,7 @@ public class FormIngreso extends JFrame {
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //ventanaForm.setSize(1366, 768);
-        ventanaForm.setUndecorated(true); // true = sin bordes, false = con bordes
+        ventanaForm.setUndecorated(false); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
     }
 

@@ -1,7 +1,6 @@
-package Personal;
+package Modelo;
 
 public class Personal {
-
     private int cedula;
     private String nombre;
     private String apellido;

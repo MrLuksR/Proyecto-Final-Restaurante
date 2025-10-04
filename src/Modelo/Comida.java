@@ -1,9 +1,8 @@
-package Productos;
+package Modelo;
 
-public class Comida extends Producto {
-
+public class Comida extends Producto{
     public Comida(String nombre, double precio, boolean stock, String descripcion) {
-        super(nombre, precio, "Comida", stock, descripcion);
+        super(nombre, precio, "Modelo.Comida", stock, descripcion);
     }
 
     @Override

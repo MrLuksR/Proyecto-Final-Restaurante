@@ -1,10 +1,6 @@
-package Clientes;
-
-import java.util.ArrayList;
-import java.util.List;
+package Modelo;
 
 public class Cliente {
-
     private String nombre;
     private String apellido;
     private int telefono; // Multivaluado

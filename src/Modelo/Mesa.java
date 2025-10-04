@@ -1,7 +1,6 @@
-package Mesas;
+package Modelo;
 
 public class Mesa {
-
     private int numMesa;     // PK
     private boolean estado;  // true = disponible, false = ocupada
     private int capacidad;   // cantidad de personas
@@ -22,6 +21,6 @@ public class Mesa {
 
     @Override
     public String toString() {
-        return "Mesa " + this.numMesa + " - " + (this.estado ? "Disponible" : "Ocupada") + " - Capacidad: " + this.capacidad;
+        return "Modelo.Mesa " + this.numMesa + " - " + (this.estado ? "Disponible" : "Ocupada") + " - Capacidad: " + this.capacidad;
     }
 }

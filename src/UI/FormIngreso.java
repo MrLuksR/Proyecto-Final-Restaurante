@@ -1,4 +1,4 @@
-package Ventanas;
+package UI;
 
 import InterfacesEimpl.ConexionBD;
 
@@ -179,6 +179,14 @@ public class FormIngreso extends JFrame {
                     txtUser.setBackground(Color.green);
                     pwdContra.setBackground(Color.green);
                     JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    FormMain main = new FormMain();
+                    main.setVisible(true);
+                    this.dispose();
                 }
                 else {
                     pwdContra.setBackground(Color.red);

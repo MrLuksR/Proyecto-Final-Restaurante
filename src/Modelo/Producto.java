@@ -1,8 +1,6 @@
-package Productos;
+package Modelo;
 
-//Clase abstracta
 public abstract class Producto {
-
     private String nombre;
     private double precio;
     private String categoria;
@@ -38,4 +36,3 @@ public abstract class Producto {
         return nombre + " - $" + precio + " [" + categoria + "] " + (stock ? "(Disponible)" : "(No disponible)");
     }
 }
-

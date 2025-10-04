@@ -1,11 +1,11 @@
 package InterfacesEimpl;
 
-import Clientes.Cliente;
-import Mesas.Mesa;
-import Personal.Personal;
-import Productos.Bebida;
-import Productos.Comida;
-import Productos.Postre;
+import Modelo.Cliente;
+import Modelo.Mesa;
+import Modelo.Personal;
+import Modelo.Bebida;
+import Modelo.Comida;
+import Modelo.Postre;
 
 import java.sql.SQLException;
 

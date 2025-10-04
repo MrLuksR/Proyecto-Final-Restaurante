@@ -1,9 +1,8 @@
-package Productos;
+package Modelo;
 
 public class Bebida extends Producto {
-
     public Bebida(String nombre, double precio, boolean stock, String descripcion) {
-        super(nombre, precio, "Bebida", stock, descripcion);
+        super(nombre, precio, "Modelo.Bebida", stock, descripcion);
     }
 
     @Override

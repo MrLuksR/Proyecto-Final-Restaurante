@@ -82,10 +82,42 @@ public class FormMain extends JFrame {
         // Label del Nombre
         JLabel lblNombre = new JLabel("Reservas");
         lblNombre.setFont(new Font("Tahoma", Font.BOLD, 70));
-        lblNombre.setBounds(0,0,vntReservas.getWidth(),70);
+        lblNombre.setBounds(50, 20, 600, 80);
         lblNombre.setHorizontalAlignment(SwingConstants.LEFT);
-
         vntReservas.add(lblNombre);
+
+        // Tabla
+        String[] columnas = {"ID", "Cliente", "Fecha", "Hora", "Mesa"};
+        // Datos de ejemplo para observar como se ve en la tabla
+        Object[][] datosEjemplo = {
+                {"1", "Matius Moraes", "2025-10-07", "20:00", "Mesa 5"},
+                {"2", "Ezequiel Albornoz", "2025-10-08", "21:30", "Mesa 2"},
+                {"3", "Lucas Rangel", "2025-12-24", "21:30", "Mesa 10"}
+        };
+
+        JTable tablaReservas = new JTable(datosEjemplo, columnas);
+        JScrollPane scrollTabla = new JScrollPane(tablaReservas);
+        scrollTabla.setBounds(50, 130, 1000, 400);
+        vntReservas.add(scrollTabla);
+
+        // Buttons add and delete
+        JButton btnAgregar = new JButton("Agregar Reserva");
+        btnAgregar.setBounds(50, 560, 200, 40);
+        vntReservas.add(btnAgregar);
+
+        JButton btnEliminar = new JButton("Eliminar Reserva");
+        btnEliminar.setBounds(270, 560, 200, 40);
+        btnEliminar.setEnabled(false); // el button eliminar arranca desactivado
+        vntReservas.add(btnEliminar);
+
+        // Activa el button eliminar solo si se selecciona una opción de la tabla
+        // getSelectedRow() devuelve el índice de la fila seleccionada
+        // Si no hay ninguna fila seleccionada devuelve -1, de lo contrario se habilita el botón eliminar
+        tablaReservas.getSelectionModel().addListSelectionListener(e -> {
+            boolean filaSeleccionada = tablaReservas.getSelectedRow() != -1;
+            btnEliminar.setEnabled(filaSeleccionada);
+        });
+
         return vntReservas;
     }
 

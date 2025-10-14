@@ -1,13 +1,17 @@
 package UI;
 
+import InterfacesEimpl.ConexionBD;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class FormMain extends JFrame {
     private JPanel vntMain;
@@ -19,6 +23,15 @@ public class FormMain extends JFrame {
     private JButton btnPedidos;
     private JButton btnHistorial;
     private JLabel lblInformación;
+    public Connection conn;
+
+    // Elementos de la ventana RESERVAS
+    private JButton btnAgregar = new JButton("Agregar");
+    private JButton btnEliminar = new JButton("Eliminar");
+    private JTable tablaReservas;
+    private DefaultTableModel mdlTblReservas; // Modelo de tabla para poder borrar las filas
+    private JComboBox<String> cmbReservas = new JComboBox<>();
+
 
     public FormMain() {
         // MenuBar
@@ -47,7 +60,10 @@ public class FormMain extends JFrame {
         setUndecorated(false); // true = sin bordes, false = con bordes
         setVisible(true);
 
-        // LISTENERS
+        //==================================================================
+
+        // LISTENERS DE VENTANAS
+
         //Listener de Botón RESERVAS
         btnReservas.addActionListener(new ActionListener() {
             @Override
@@ -69,6 +85,31 @@ public class FormMain extends JFrame {
                 splMain.setRightComponent(opcHistorial());
             }
         });
+
+        //==================================================================
+
+        // LISTENERS DE BOTONES EN VENTANAS
+
+        // Listener de botón agregar (Ventana Reservas)
+        btnAgregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Abrir ventana JDialog
+            }
+        });
+
+        // Listener de botón eliminar (Ventana Reservas)
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int opc = JOptionPane.showOptionDialog(null, "¿Eliminar esta reserva?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int valor = Integer.parseInt(tablaReservas.getValueAt(tablaReservas.getSelectedRow(), 0).toString());
+                if (opc == JOptionPane.YES_OPTION && eliminarFila("reservas", "id", valor)) {
+                    mdlTblReservas.removeRow(tablaReservas.getSelectedRow());
+                    JOptionPane.showMessageDialog(null, "Reserva Eliminada");
+                }
+            }
+        });
     }
 
     // Métodos para crear ventanas de los BOTONES DE LA IZQUIERDA DEL SPLIT
@@ -86,28 +127,42 @@ public class FormMain extends JFrame {
         lblNombre.setHorizontalAlignment(SwingConstants.LEFT);
         vntReservas.add(lblNombre);
 
-        // Tabla
-        String[] columnas = {"ID", "Cliente", "Fecha", "Hora", "Mesa"};
+        // Columnas
+        String[] columnas = {"ID", "CI del Cliente", "Cliente", "Fecha", "Hora", "Mesa", "Personas"};
         // Datos de ejemplo para observar como se ve en la tabla
-        Object[][] datosEjemplo = {
-                {"1", "Matius Moraes", "2025-10-07", "20:00", "Mesa 5"},
-                {"2", "Ezequiel Albornoz", "2025-10-08", "21:30", "Mesa 2"},
-                {"3", "Lucas Rangel", "2025-12-24", "21:30", "Mesa 10"}
-        };
+        /*Object[][] datosEjemplo = {
+                {"1", "52243048", "Moraes", "2025-10-07", "20:00", 5, 2},
+                {"2", "34011238", "Albornoz", "2025-10-08", "21:30", 2, 4},
+                {"3", "55746049", "Rangel", "2025-12-24", "21:30", 10, 4}
+        };*/
 
-        JTable tablaReservas = new JTable(datosEjemplo, columnas);
+        // JComboBox para ordenar
+        String[] items = {"ID", "Fecha", "Hora", "Cliente", "Mesa"};
+        cmbReservas = new JComboBox(items);
+        cmbReservas.setBounds(1060,145,100,30);
+        vntReservas.add(cmbReservas);
+
+        // TABLA
+        mdlTblReservas = new DefaultTableModel(datosReserva("id"), columnas);
+        tablaReservas = new JTable(mdlTblReservas);
+        tablaReservas.setDefaultEditor(Object.class, null); // No permite que la tabla sea editable
+        tablaReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solamente un elemento
+        tablaReservas.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollTabla = new JScrollPane(tablaReservas);
         scrollTabla.setBounds(50, 130, 1000, 400);
         vntReservas.add(scrollTabla);
 
-        // Buttons add and delete
-        JButton btnAgregar = new JButton("Agregar Reserva");
+        // Label para ordenar
+        JLabel lblOrdenar = new  JLabel("Ordenar por:");
+        lblOrdenar.setBounds(1060,125,100,20);
+        vntReservas.add(lblOrdenar);
+
+        // Botones de agregar y eliminar
         btnAgregar.setBounds(50, 560, 200, 40);
         vntReservas.add(btnAgregar);
 
-        JButton btnEliminar = new JButton("Eliminar Reserva");
         btnEliminar.setBounds(270, 560, 200, 40);
-        btnEliminar.setEnabled(false); // el button eliminar arranca desactivado
+        btnEliminar.setEnabled(false); // el botón eliminar arranca desactivado
         vntReservas.add(btnEliminar);
 
         // Activa el button eliminar solo si se selecciona una opción de la tabla
@@ -116,6 +171,35 @@ public class FormMain extends JFrame {
         tablaReservas.getSelectionModel().addListSelectionListener(e -> {
             boolean filaSeleccionada = tablaReservas.getSelectedRow() != -1;
             btnEliminar.setEnabled(filaSeleccionada);
+        });
+
+        // Listener de JComboBox para ordenar
+        cmbReservas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (tablaReservas == null) return;
+                int cbmIndex = cmbReservas.getSelectedIndex();
+                String order = "id";
+
+                switch(cbmIndex) {
+                    case 0:
+                        order = "id";
+                        break;
+                    case 1:
+                        order = "fecha";
+                        break;
+                    case 2:
+                        order = "hora";
+                        break;
+                    case 3:
+                        order = "cliente";
+                        break;
+                    case 4:
+                        order = "mesa";
+                        break;}
+                mdlTblReservas.setDataVector(datosReserva(order), columnas);
+                tablaReservas.setModel(mdlTblReservas);
+            }
         });
 
         return vntReservas;
@@ -155,10 +239,79 @@ public class FormMain extends JFrame {
         return vntHistorial;
     }
 
+    // Métodos para traer y eliminar DATOS DENTRO DE LA BASE
+    public String[][] datosReserva(String order){
+        try {
+            String sqlTotalReservas = "SELECT COUNT(id) AS total FROM reservas"; // Cuenta todas las reservas que hay
+            PreparedStatement pst = conn.prepareStatement(sqlTotalReservas);
+            ResultSet totalRes = pst.executeQuery(); // Número total de reservas
+            int total = 0;
+            if (totalRes.next()) {
+                total = totalRes.getInt("total");
+            }
+
+            String[][] matrizReservasFinal = new String[total][7];
+            int i = 0;
+
+            // Creamos lo necesario para obtener la fila con datos de reserva
+            String sqlReserva= "SELECT id, ciCliente, cliente, fecha, hora, mesa, personas FROM reservas ORDER BY " + order; // Para obtener una fila de reservas
+
+            /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
+            * Luego creamos un ResultSet para comprobar el resultado obtenido de esa consulta*/
+
+            pst = conn.prepareStatement(sqlReserva, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rsReservas = pst.executeQuery();
+            while (rsReservas.next()) {
+                matrizReservasFinal[i][0] = String.valueOf(rsReservas.getInt("id"));
+                matrizReservasFinal[i][1] = rsReservas.getString("ciCliente");
+                matrizReservasFinal[i][2] = rsReservas.getString("cliente");
+                matrizReservasFinal[i][3] = rsReservas.getString("fecha");
+                matrizReservasFinal[i][4] = rsReservas.getString("hora");
+                matrizReservasFinal[i][5] = String.valueOf(rsReservas.getInt("mesa"));
+                matrizReservasFinal[i][6] = String.valueOf(rsReservas.getInt("personas"));
+                i++;
+            }
+
+            // Cerramos el PreparedStatement y ResultSet
+            rsReservas.close();
+            totalRes.close();
+            pst.close();
+            return matrizReservasFinal;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return new String[0][0];
+        }
+    }
+
+    //==================================================================
+    //Botón PEDIDOS
+
+    /*Código
+    código
+    código*/
+
+    // Métodos para eliminar fila
+    public boolean eliminarFila(String tabla, String columna, int valor){
+        try{
+            String eliminar = "DELETE FROM " +  tabla + " WHERE " + columna + " = " + valor;
+            String sqlTotalReservas = eliminar; // Elimina la fila en la base de datos
+            PreparedStatement pst = conn.prepareStatement(sqlTotalReservas);
+            pst.executeUpdate();
+            pst.close();
+            return true;
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    } // Se utiliza para eliminar fila solamente
+
     public static void main(String[] args) throws SQLException {
+        Connection conn = ConexionBD.getConnection();
+        if (conn == null) return;
         FormMain ventanaForm = new FormMain();
+        ventanaForm.conn = conn;
         ventanaForm.setContentPane(ventanaForm.vntMain);
-        ventanaForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Cambiar fondo(verde menta)
         ventanaForm.getContentPane().setBackground(new Color(123, 214, 144));
@@ -166,7 +319,6 @@ public class FormMain extends JFrame {
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //ventanaForm.setSize(1366, 768);
-        ventanaForm.setUndecorated(true); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
     }
 

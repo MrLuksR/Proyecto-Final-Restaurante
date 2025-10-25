@@ -33,7 +33,7 @@
 ### - Mesa: es la clase que representa las mesas del restaurante
 ### - Personal: esta clase contiene la información del personal 
 ### - Postre: clase que representa los postres disponibles del menú
-### - Producto: clase que 
+### - Producto: clase que representa los productos
 
 ## UI
 ### Este apartado contiene los .form con el diseño del proyecto, además de sus respectivos .java asociados a los form

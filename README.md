@@ -27,10 +27,13 @@
 <img width="300" height="191" alt="image" src="https://github.com/user-attachments/assets/b670b343-d2b6-4ad5-9e96-98d7c4b23514" />
 
 ## Dentro contiene las clases:
-### - Bebida: es la que representa una bebida del menú
+### - Bebida: es la que representa una bebida disponible del menú
 ### - Cliente: esta clase almacena la información de los clientes
-### - Comida: esta representa im plato principal del menú
-### - Mesa: es la clase que 
+### - Comida: esta representa los platos principales del menú
+### - Mesa: es la clase que representa las mesas del restaurante
+### - Personal: esta clase contiene la información del personal 
+### - Postre: clase que representa los postres disponibles del menú
+### - Producto: clase que 
 
 ## UI
 ### Este apartado contiene los .form con el diseño del proyecto, además de sus respectivos .java asociados a los form

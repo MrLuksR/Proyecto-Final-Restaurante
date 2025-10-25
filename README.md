@@ -12,6 +12,9 @@
 ### - GeneralDAO
 ### - FinalDAO
 
+<img width="289" height="96" alt="image" src="https://github.com/user-attachments/assets/4e93a9dc-e723-4296-9a88-6f0f7050997a" />
+
+
 ## Modelo:
 ## Dentro contiene las clases:
 ### - Bebida: es la que representa una bebida del menú

@@ -179,12 +179,7 @@ public class FormIngreso extends JFrame {
                     txtUser.setBackground(Color.green);
                     pwdContra.setBackground(Color.green);
                     JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    try {
-                        conn.close();
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    FormMain main = new FormMain();
+                    FormPrincipal main = new FormPrincipal(conn);
                     main.setVisible(true);
                     this.dispose();
                 }
@@ -283,5 +278,4 @@ public class FormIngreso extends JFrame {
         ventanaForm.setUndecorated(false); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
     }
-
 }

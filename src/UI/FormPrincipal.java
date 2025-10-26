@@ -152,9 +152,26 @@ public class FormPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int opc = JOptionPane.showOptionDialog(null, "¿Eliminar esta reserva?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 int valor = Integer.parseInt(tblReservas.getValueAt(tblReservas.getSelectedRow(), 0).toString());
-                if (opc == JOptionPane.YES_OPTION && eliminarFila("reservas", "id", valor)) {
-                    mdlTblReservas.removeRow(tblReservas.getSelectedRow());
-                    JOptionPane.showMessageDialog(null, "Reserva Eliminada");
+                int mesa = Integer.parseInt(tblReservas.getValueAt(tblReservas.getSelectedRow(), 5).toString());
+                try{
+                    if (opc == JOptionPane.YES_OPTION && eliminarFila("reservas", "id", valor)) {
+                        String sqlNuevoEstMesa = "UPDATE mesas SET estado = 'Libre' WHERE numMesa = ?";
+                        PreparedStatement pst = conn.prepareStatement(sqlNuevoEstMesa);
+                        pst.setInt(1, mesa);
+                        pst.execute();
+
+                        String sqlAutoIncr = "ALTER TABLE reservas AUTO_INCREMENT = ?";
+                        pst = conn.prepareStatement(sqlAutoIncr);
+                        pst.setInt(1, valor);
+                        pst.execute();
+
+                        pst.close();
+
+                        mdlTblReservas.removeRow(tblReservas.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "Reserva Eliminada");
+                    }
+                }catch (SQLException ex){
+                    JOptionPane.showMessageDialog(null, "Error al eliminar esta reserva\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -386,9 +403,12 @@ public class FormPrincipal extends JFrame {
         int diaSelect = Integer.parseInt(spnFechaDia.getValue().toString());
         int mesSelect = Integer.parseInt(spnFechaMes.getValue().toString());
         int anioSelect = Integer.parseInt(spnFechaAnio.getValue().toString());
+        int horaSelect = Integer.parseInt(spnHora.getValue().toString());
+        int minSelect = Integer.parseInt(spnMinutos.getValue().toString());
 
         try{
             LocalDate fechaSelect = LocalDate.of(anioSelect, mesSelect, diaSelect);
+            LocalTime horaSelectTime =  LocalTime.of(horaSelect, minSelect);
             if (fechaSelect.isBefore(hoy)){
                 lblInfoFecha.setText("Fecha inválida");
                 fecha = false;
@@ -396,6 +416,23 @@ public class FormPrincipal extends JFrame {
             else{
                 lblInfoFecha.setText("");
                 fecha = true;
+
+                // Validar hora según la fecha
+                if (fechaSelect.equals(hoy)) {
+                    // si es hoy, la hora debe ser posterior a la actual
+                    if (horaSelectTime.isAfter(nowHora)) {
+                        lblInfoHora.setText(""); // válida
+                        hora = true;
+                    } else {
+                        lblInfoHora.setText("Hora inválida");
+                        hora = false;
+                    }
+                }
+                else {
+                    // si es un día futuro, cualquier hora es válida
+                    lblInfoHora.setText("");
+                    hora = true;
+                }
             }
         }
         catch(Exception e){
@@ -405,9 +442,14 @@ public class FormPrincipal extends JFrame {
     public void validarHora(){
         int horaSelect = Integer.parseInt(spnHora.getValue().toString());
         int minSelect = Integer.parseInt(spnMinutos.getValue().toString());
+        int diaSelect = Integer.parseInt(spnFechaDia.getValue().toString());
+        int mesSelect = Integer.parseInt(spnFechaMes.getValue().toString());
+        int anioSelect = Integer.parseInt(spnFechaAnio.getValue().toString());
 
         try{
             // Validación de formato 24h
+            LocalDate fechaSelect = LocalDate.of(anioSelect, mesSelect, diaSelect);
+            LocalTime horaSelectTime =  LocalTime.of(horaSelect, minSelect);
             if (horaSelect < 0 || horaSelect > 23 || minSelect < 0 || minSelect > 59) {
                 lblInfoHora.setText("Error");
                 JOptionPane.showMessageDialog(null, "La hora seleccionada no es válida. (Formato 24 horas)", "Error", JOptionPane.ERROR_MESSAGE);
@@ -416,7 +458,7 @@ public class FormPrincipal extends JFrame {
                 hora = false;
                 lblInfoHora.setText("");
             }
-            else if (LocalTime.of(horaSelect, minSelect).isBefore(LocalTime.now()) || LocalTime.of(horaSelect, minSelect).equals(LocalTime.now())){
+            else if (fechaSelect.equals(hoy) && !horaSelectTime.isAfter(nowHora)){
                 lblInfoHora.setText("Hora inválida");
                 hora = false;
             }

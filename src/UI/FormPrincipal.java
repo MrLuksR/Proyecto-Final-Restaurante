@@ -50,6 +50,15 @@ public class FormPrincipal extends JFrame {
     private JLabel lblTitulo;
     private JLabel lblInfoFecha;
     private JLabel lblInfoHora;
+    private JButton btnMesa1;
+    private JButton btnMesa2;
+    private JButton btnMesa3;
+    private JButton btnMesa4;
+    private JButton btnMesa5;
+    private JButton btnMesa6;
+    private JButton btnMesa7;
+    private JButton btnMesa8;
+    private JButton btnMesa9;
     public Connection conn;
     boolean cedula, apellido, fecha, hora;
 
@@ -485,5 +494,12 @@ public class FormPrincipal extends JFrame {
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //ventanaForm.setSize(1366, 768);
         ventanaForm.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        String username = System.getenv("USERNAME");
+        vntReservas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
+        vntMesas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
     }
 }

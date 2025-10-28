@@ -24,6 +24,8 @@ public class FormIngreso extends JFrame {
     private JLabel lblInfoContra;
     private JLabel lblAbajo;
     public Connection conn;
+    private ImageIcon botonMostrar;
+    private ImageIcon botonNoMostrar;
 
     private boolean user, contra, mostrar;
 
@@ -85,13 +87,12 @@ public class FormIngreso extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrar = !mostrar;
-                if (mostrar){
+                if (mostrar) {
                     pwdContra.setEchoChar((char) 0);
-                    btnShowContra.setText("Ah No!");
-                }
-                else {
+                    btnShowContra.setIcon(botonNoMostrar);
+                } else {
                     pwdContra.setEchoChar('•');
-                    btnShowContra.setText("Ah Si!");
+                    btnShowContra.setIcon(botonMostrar);
                 }
             }
         });
@@ -245,6 +246,15 @@ public class FormIngreso extends JFrame {
         btnSalir.setBorderPainted(false);       // Quita el borde
         btnSalir.setContentAreaFilled(false);   // Quita el fondo
         btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        botonMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_SMOOTH));
+        botonNoMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_SMOOTH));
+
+        btnShowContra.setText("");
+        btnShowContra.setIcon(botonMostrar);
+        btnShowContra.setBorderPainted(false);
+        btnShowContra.setContentAreaFilled(false);
+        btnShowContra.setFocusPainted(false);
     }
 
     /*
@@ -277,5 +287,11 @@ public class FormIngreso extends JFrame {
         //ventanaForm.setSize(1366, 768);
         ventanaForm.setUndecorated(false); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        String username = System.getenv("USERNAME");
+        vntIngreso = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
     }
 }

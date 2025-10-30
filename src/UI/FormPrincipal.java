@@ -2,7 +2,9 @@ package UI;
 
 import InterfacesEimpl.ConexionBD;
 import InterfacesEimpl.FinalDAO;
+import Modelo.CantidadNegativaException;
 import Modelo.Reserva;
+import Modelo.StockInsuficienteException;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -81,9 +83,11 @@ public class FormPrincipal extends JFrame {
     private JSpinner spnCantidadProdMesas;
     private JComboBox cmbEstadoProdMesas;
     private JButton btnCambEstadoProdMesas;
+    private JLabel lblTotalProdMesas;
+    private JLabel lblTotalPedidMesasInfo;
     private DefaultComboBoxModel mdlComboBoxPersonalMesas; // Modelo de comboBox para seleccionar personal
     private DefaultTableModel mdlTblPedidosMesas; // Modelo de tabla para pedidos
-    private String[] columnasMesasPedidos = {"ID", "Mesa", "Estado", "Producto", "Cantidad"}; // Columnas para la tabla de pedidos
+    private String[] columnasMesasPedidos = {"ID", "Mesa", "Estado", "Producto", "Cantidad", "Totales"}; // Columnas para la tabla de pedidos
     private DefaultComboBoxModel mdlComboBoxProductosMesas;
     public Connection conn;
     boolean cedula, apellido, fecha, hora;
@@ -95,6 +99,7 @@ public class FormPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         spnCantidadProdMesas.setPreferredSize(new Dimension(50, 25));
         cmbPersonal.setPreferredSize(new Dimension(100, 25));
+        spnCantidadProdMesas.setValue(1);
 
         // Personalizar el tamaño de las pestañas de JTabbedPane
         for (int i = 0; i < tbdSecciones.getTabCount(); i++) {
@@ -190,7 +195,7 @@ public class FormPrincipal extends JFrame {
         int mesa = Integer.parseInt((String) cmbModel.getSelectedItem());
         lblCantidad.setText(String.valueOf(getCantPers(mesa)));
 
-        // Listener de Botón Eliminar
+        // Listener de Botón Eliminar (Tabla Reservas)
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -312,6 +317,10 @@ public class FormPrincipal extends JFrame {
                     int cbmIndex = cmbOrder.getSelectedIndex();
                     mdlTblReservas.setDataVector(datosReserva(cbmIndex), columnas);
                     tblReservas.setModel(mdlTblReservas);
+                    lblNumeroMesaInfo.setText("nada");
+                    lblEstadoInfo.setText("nada");
+                    lblPersonalInfo.setText("nada");
+                    setEnabledAtMesaSelec(false);
                 }catch(SQLException ex){
                     JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
                 }
@@ -345,28 +354,45 @@ public class FormPrincipal extends JFrame {
                 String estadoChg = cmbEstadosMesas.getSelectedItem().toString();
 
                 // Si la respuesta es SÍ y el estado a cambiar no es el mismo, entonces lo cambiamos
-                if (opc == JOptionPane.YES_OPTION && !estadoSelec.equals(estadoChg)) {
+                int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+                if (opc == JOptionPane.YES_OPTION && !estadoSelec.equals(estadoChg) && datosPedidosMesas(numMesa) == null) { // No permite cambiar el estado si la mesa está ocupada y con pedidos
                     String sqlChgEstado = "UPDATE mesas SET estado = ? WHERE numMesa = ?";
-                    int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
                     String estado = cmbEstadosMesas.getSelectedItem().toString();
 
-                    if (!estado.equals("Reservada") && eliminarFila("reservas", "mesa", numMesa)) {
-                        mdlTblReservas.setDataVector(datosReserva(cmbOrder.getSelectedIndex()), columnas);
-                        tblReservas.setModel(mdlTblReservas);
-                    }
-                    try{
-                        PreparedStatement pst = conn.prepareStatement(sqlChgEstado);
-                        pst.setString(1, estado);
-                        pst.setInt(2, numMesa);
-                        pst.executeUpdate();
-                        pst.close();
-                        lblEstadoInfo.setText(estado);
-                    }catch(SQLException ex){
-                        JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                    if (estadoSelec.equals("Reservada")) {
+                        opc = JOptionPane.showOptionDialog(null, "Reserva existente en mesa " + lblNumeroMesaInfo.getText() + "\n¿Desea eliminarla?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                        if (opc == JOptionPane.YES_OPTION && eliminarFila("reservas", "mesa", numMesa)) {
+                            mdlTblReservas.setDataVector(datosReserva(cmbOrder.getSelectedIndex()), columnas);
+                            tblReservas.setModel(mdlTblReservas);
+                            JOptionPane.showMessageDialog(null, "Reserva para mesa " + numMesa + " eliminada");
+                            try{
+                                PreparedStatement pst = conn.prepareStatement(sqlChgEstado);
+                                pst.setString(1, estado);
+                                pst.setInt(2, numMesa);
+                                pst.executeUpdate();
+                                pst.close();
+                                lblEstadoInfo.setText(estado);
+                            }catch(SQLException ex){
+                                JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                            }
+                        }
+                    }else{
+                        try{
+                            PreparedStatement pst = conn.prepareStatement(sqlChgEstado);
+                            pst.setString(1, estado);
+                            pst.setInt(2, numMesa);
+                            pst.executeUpdate();
+                            pst.close();
+                            lblEstadoInfo.setText(estado);
+                        }catch(SQLException ex){
+                            JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                        }
                     }
                     // Si el estado a cambiar es igual al ya seleccionado entonces mostrar el mensaje
-                }else{
+                }else if (estadoSelec.equals(estadoChg)){
                     JOptionPane.showMessageDialog(null, "La mesa ya está " + estadoChg, "Información", JOptionPane.INFORMATION_MESSAGE);
+                }else if (datosPedidosMesas(numMesa) != null){
+                    JOptionPane.showMessageDialog(null, "No se ha cerrado el pedido de mesa " + lblNumeroMesaInfo.getText(), "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -393,6 +419,7 @@ public class FormPrincipal extends JFrame {
                         pst.executeUpdate();
                         pst.close();
                         lblPersonalInfo.setText(personal);
+                        JOptionPane.showMessageDialog(null,"Personal de mesa " + numMesa + " cambiado a mesero " + personal);
                     }catch(SQLException ex){
                         JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
                     }
@@ -410,9 +437,38 @@ public class FormPrincipal extends JFrame {
         tblPedidosMesas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solamente un elemento
         tblPedidosMesas.getTableHeader().setReorderingAllowed(false);
 
+        // Listener de Tabla pedidos para botón Eliminar y Cambiar Estado de Pedido
         tblPedidosMesas.getSelectionModel().addListSelectionListener(e -> {
             boolean filaSeleccionada = tblPedidosMesas.getSelectedRow() != -1;
             btnElimProdMesas.setEnabled(filaSeleccionada);
+            btnCambEstadoProdMesas.setEnabled(filaSeleccionada);
+            cmbEstadoProdMesas.setEnabled(filaSeleccionada);
+        });
+
+        // Listener de Botón eliminar (Tabla Productos)
+        btnElimProdMesas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombrePedido = tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 3).toString();
+                int opc = JOptionPane.showOptionDialog(null, "¿Eliminar pedido " + nombrePedido + "?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (opc == JOptionPane.YES_OPTION) {
+                    int id = Integer.parseInt(tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 0).toString());
+                    int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+                    eliminarFila("pedidos","id_pedido", id);
+                    String sqlAutoIncr = "ALTER TABLE reservas AUTO_INCREMENT = ?";
+                    try{
+                        PreparedStatement pst = conn.prepareStatement(sqlAutoIncr);
+                        pst.setInt(1, id);
+                        pst.executeUpdate();
+                        pst.close();
+                        mdlTblPedidosMesas.setDataVector(datosPedidosMesas(numMesa), columnasMesasPedidos);
+                        tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                        JOptionPane.showMessageDialog(null,"Producto Eliminado");
+                    }catch(Exception ex){
+                        JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                    }
+                }
+            }
         });
 
         // ComboBox de productos
@@ -437,6 +493,55 @@ public class FormPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getProductos("'Postre'");
+            }
+        });
+
+        // Listener de Spinner cantidad
+        spnCantidadProdMesas.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(javax.swing.event.ChangeEvent e) {
+                CantidadNegativaException ex = new CantidadNegativaException("La cantidad no puede ser negativa ni cero");
+                int valor = (int) spnCantidadProdMesas.getValue();
+                if (valor < 1) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE);
+                    throw ex;
+                }
+            }
+        });
+
+        // ComboBox para cambiar estado de Pedidos
+        String[] estadosPedidos = {"Pendiente", "En preparación", "Listo", "Servido"};
+        cmbEstadoProdMesas.setModel(new DefaultComboBoxModel(estadosPedidos));
+
+        // Listener de botón Agregar Producto
+        btnAgregarProdMesa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int cant = (int) spnCantidadProdMesas.getValue();
+                addProducto(cant);
+            }
+        });
+
+        // Listener de botón Cambiar Estado de Pedido
+        btnCambEstadoProdMesas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String estado = cmbEstadoProdMesas.getSelectedItem().toString();
+                int id_pedido = Integer.parseInt(tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 0).toString());
+                int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+                String sqlEstado = "UPDATE pedidos SET estado = ? WHERE id_pedido = ?";
+                try{
+                    PreparedStatement pst = conn.prepareStatement(sqlEstado);
+                    pst.setString(1, estado);
+                    pst.setInt(2, id_pedido);
+                    pst.executeUpdate();
+                    pst.close();
+                    mdlTblPedidosMesas.setDataVector(datosPedidosMesas(numMesa), columnasMesasPedidos);
+                    tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                    JOptionPane.showMessageDialog(null,"Estado cambiado a " + estado);
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                }
             }
         });
     }
@@ -666,8 +771,7 @@ public class FormPrincipal extends JFrame {
         btnMesa1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("1");
                 String estado = consultarEstadoYpersonal(1, 0);
                 String personal = consultarEstadoYpersonal(1, 1);
@@ -677,7 +781,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(1), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -685,8 +788,7 @@ public class FormPrincipal extends JFrame {
         btnMesa2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("2");
                 String estado = consultarEstadoYpersonal(2, 0);
                 String personal = consultarEstadoYpersonal(2, 1);
@@ -696,7 +798,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(2), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -704,8 +805,7 @@ public class FormPrincipal extends JFrame {
         btnMesa3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("3");
                 String estado = consultarEstadoYpersonal(3, 0);
                 String personal = consultarEstadoYpersonal(3, 1);
@@ -715,7 +815,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(3), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -723,8 +822,7 @@ public class FormPrincipal extends JFrame {
         btnMesa4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("4");
                 String estado = consultarEstadoYpersonal(4, 0);
                 String personal = consultarEstadoYpersonal(4, 1);
@@ -734,7 +832,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(4), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -742,8 +839,7 @@ public class FormPrincipal extends JFrame {
         btnMesa5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("5");
                 String estado = consultarEstadoYpersonal(5, 0);
                 String personal = consultarEstadoYpersonal(5, 1);
@@ -753,7 +849,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(5), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -761,8 +856,7 @@ public class FormPrincipal extends JFrame {
         btnMesa6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("6");
                 String estado = consultarEstadoYpersonal(6, 0);
                 String personal = consultarEstadoYpersonal(6, 1);
@@ -772,7 +866,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(6), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -780,8 +873,7 @@ public class FormPrincipal extends JFrame {
         btnMesa7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("7");
                 String estado = consultarEstadoYpersonal(7, 0);
                 String personal = consultarEstadoYpersonal(7, 1);
@@ -791,7 +883,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(7), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -799,8 +890,7 @@ public class FormPrincipal extends JFrame {
         btnMesa8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("8");
                 String estado = consultarEstadoYpersonal(8, 0);
                 String personal = consultarEstadoYpersonal(9, 1);
@@ -810,7 +900,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(8), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
 
@@ -818,8 +907,7 @@ public class FormPrincipal extends JFrame {
         btnMesa9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnCambiarEstado.setEnabled(true);
-                btnCerrarPedidoMesa.setEnabled(true);
+                setEnabledAtMesaSelec(true);
                 lblNumeroMesaInfo.setText("9");
                 String estado = consultarEstadoYpersonal(9, 0);
                 String personal = consultarEstadoYpersonal(9, 1);
@@ -829,7 +917,6 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(9), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
-                btnAgregarProdMesa.setEnabled(true);
             }
         });
     } // Los lísteners de los botones de las mesas (para limpiar un poco el código)
@@ -859,18 +946,19 @@ public class FormPrincipal extends JFrame {
     } // Obtiene los apellidos de los meseros para el JComboBox, para cambiar designado por mesa
     public String[][] datosPedidosMesas(int numMesa){
         try {
-            String sqlTotalReservas = "SELECT COUNT(id_pedido) AS total FROM pedidos"; // Cuenta todas los pedidos que hay
+            String sqlTotalReservas = "SELECT COUNT(id_pedido) AS total FROM pedidos WHERE mesa = ?";// Cuenta todas los pedidos que hay
             PreparedStatement pst = conn.prepareStatement(sqlTotalReservas);
+            pst.setInt(1, numMesa);
             ResultSet totalRes = pst.executeQuery(); // Número total de pedidos
             int total = 0;
             if (totalRes.next()) {
                 total = totalRes.getInt("total");
             }
 
-            String[][] matrizPedidosFinal = new String[total][5];
+            String[][] matrizPedidosFinal = new String[total][6];
 
             // Creamos lo necesario para obtener la fila con datos de pedidos
-            String sqlReserva = "SELECT id_pedido, mesa, estado, productos.nombre AS producto, cantidad FROM pedidos\n" +
+            String sqlReserva = "SELECT id_pedido, mesa, estado, productos.nombre AS producto, cantidad, totales FROM pedidos\n" +
                     "INNER JOIN productos ON pedidos.producto = productos.idProducto WHERE mesa = " + numMesa; // Para obtener una fila de pedidos
 
             /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
@@ -885,6 +973,7 @@ public class FormPrincipal extends JFrame {
                 matrizPedidosFinal[i][2] = rsPedidos.getString("estado");
                 matrizPedidosFinal[i][3] = rsPedidos.getString("producto");
                 matrizPedidosFinal[i][4] = String.valueOf(rsPedidos.getInt("cantidad"));
+                matrizPedidosFinal[i][5] = String.valueOf(rsPedidos.getInt("Totales"));
                 i++;
             }
 
@@ -898,12 +987,12 @@ public class FormPrincipal extends JFrame {
                 return null;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return new String[0][0];
+            return null;
         }
     } // Trae los datos de la pedidos de una mesa a una Matriz para aplicar a la tabla
     public String[] getProductos(String categoria){
         // Hacemos la consulta con normalidad
-        String sqlCons = "SELECT nombre, precio FROM productos WHERE categoria = " + categoria;
+        String sqlCons = "SELECT nombre FROM productos WHERE categoria = " + categoria;
 
         try{
             // Consultamos con un Statment a fin de establecer la manera de recorrer el ResultSet
@@ -915,7 +1004,7 @@ public class FormPrincipal extends JFrame {
             // Mientras el ResultSet encuentre valores poner cada valor al modelo del JComboBox
             String elemento;
             while (rs.next()){
-                elemento = rs.getString("nombre") + " - $" + rs.getString("precio");
+                elemento = rs.getString("nombre");
                 mdlComboBoxProductosMesas.addElement(elemento);
             }
             // Meter el modelo al JComboBox
@@ -924,6 +1013,111 @@ public class FormPrincipal extends JFrame {
             JOptionPane.showMessageDialog(null, "Error en la consulta:\n" + e);
         }
         return new String[0];
+    } // Obtiene los nombres de los productos para ComboBox
+    public void setEnabledAtMesaSelec(boolean valor){
+        cmbEstadosMesas.setEnabled(valor);
+        cmbPersonal.setEnabled(valor);
+        btnCambiarPersonal.setEnabled(valor);
+        btnCambiarEstado.setEnabled(valor);
+        btnCerrarPedidoMesa.setEnabled(valor);
+        cmbProductosMesas.setEnabled(valor);
+        btnAgregarProdMesa.setEnabled(valor);
+        spnCantidadProdMesas.setEnabled(valor);
+        rbtnComida.setEnabled(valor);
+        rbtnPostre.setEnabled(valor);
+        rbtnBebida.setEnabled(valor);
+        lblTotalPedidMesasInfo.setText("$");
+    } // Establece todos los controles de la pestaña de mesa
+    public void addProducto(int cant){
+        String sqlProd = "SELECT idProducto FROM productos WHERE nombre = ?";
+        String sqlAdd = "INSERT INTO pedidos (mesa, estado, producto, cantidad, totales)\n" +
+                "SELECT ?, ?, ?, ?, productos.precio * ?\n" +
+                "FROM productos\n" +
+                "WHERE productos.idProducto = ?;";
+        int opc = JOptionPane.showOptionDialog(null, "¿Agregar " + cant + " " + cmbProductosMesas.getSelectedItem().toString() + " a la mesa?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+
+        if (opc == JOptionPane.YES_OPTION && getEstadoMesa(numMesa,"Ocupada")){
+            try{
+                PreparedStatement pst = conn.prepareStatement(sqlProd);
+                String nombre = cmbProductosMesas.getSelectedItem().toString();
+                pst.setString(1, nombre);
+                // Restar cantidad de productos
+                if (modStockProd(nombre, cant)){
+                    ResultSet rs = pst.executeQuery();
+                    int mesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+
+                    if (rs.next()) {
+                        int id = rs.getInt("idProducto");
+                        pst = conn.prepareStatement(sqlAdd);
+                        pst.setInt(1, mesa);
+                        pst.setString(2, "Pendiente");
+                        pst.setInt(3, id);
+                        pst.setInt(4, cant);
+                        pst.setInt(5, cant);
+                        pst.setInt(6, id);
+                        pst.execute();
+
+                        // Establecer nuevos datos a la tabla
+                        mdlTblPedidosMesas.setDataVector(datosPedidosMesas(mesa), columnasMesasPedidos);
+                        tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                    }
+                    rs.close();
+                }
+                pst.close();
+            }catch (SQLException e){
+                JOptionPane.showMessageDialog(null, "Error base de datos:\n" + e);
+            }
+        }else if (!getEstadoMesa(numMesa,"Ocupada"))
+            JOptionPane.showMessageDialog(null, "No se puede agregar producto\nmesa: " + lblEstadoInfo.getText(), "Información", JOptionPane.WARNING_MESSAGE);
+    } // Agrega un producto a la tabla
+    public boolean modStockProd(String nombre, int cant){
+        String sqlGetStock = "SELECT stock FROM productos WHERE nombre = ?";
+        try{
+            PreparedStatement pst = conn.prepareStatement(sqlGetStock);
+            pst.setString(1, nombre);
+            pst.execute();
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int stock = rs.getInt("stock");
+
+                if (cant <= stock){
+                    String sqlUpdateStock = "UPDATE productos SET stock = ? WHERE nombre = ?";
+                    pst = conn.prepareStatement(sqlUpdateStock);
+                    pst.setInt(1, stock - cant);
+                    pst.setString(2, nombre);
+                    pst.execute();
+                    rs.close();
+                    return true;
+                }else{
+                    StockInsuficienteException ex =  new StockInsuficienteException("Stock insuficiente");
+                    JOptionPane.showMessageDialog(null, ex.getMessage() + " " + nombre, "Información", JOptionPane.WARNING_MESSAGE);
+                    throw ex;
+                }
+            }
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error base de datos:\n" + e);
+        }
+        return false;
+    } // Modifica la cantidad de productos en la base de datos
+    public boolean getEstadoMesa(int numMesa, String estado){
+        String sqlCons = "SELECT estado FROM mesas WHERE numMesa = ?";
+        try{
+            PreparedStatement pst = conn.prepareStatement(sqlCons);
+            pst.setInt(1, numMesa);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                if (estado.equals(rs.getString("estado")))
+                    return true;
+                else
+                    return false;
+            }
+
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error base de datos:\n" + e);
+        }
+        return false;
     }
 
     public static void main(String[] args) throws SQLException {

@@ -26,7 +26,7 @@ Este paquete contiene tres clases, las cuales son las encargadas de realizar la 
 
 <img width="300" height="191" alt="image" src="https://github.com/user-attachments/assets/b670b343-d2b6-4ad5-9e96-98d7c4b23514" />
 
-### Dentro contiene las clases:
+## Dentro contiene las clases:
 - Bebida: es la que representa una bebida disponible del menú
 - Cliente: esta clase almacena la información de los clientes
 - Comida: esta representa los platos principales del menú

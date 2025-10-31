@@ -101,10 +101,14 @@ public class FormPrincipal extends JFrame {
         cmbPersonal.setPreferredSize(new Dimension(100, 25));
         spnCantidadProdMesas.setValue(1);
 
+        //setDesingPrincipal();
+
         // Personalizar el tamaño de las pestañas de JTabbedPane
         for (int i = 0; i < tbdSecciones.getTabCount(); i++) {
             JLabel tabLabel = new JLabel(tbdSecciones.getTitleAt(i));
-            tabLabel.setPreferredSize(new Dimension(60, 30));
+            tabLabel.setPreferredSize(new Dimension(100, 30));
+            tabLabel.setFont(new Font(tabLabel.getFont().getName(), Font.BOLD, 18));
+            tabLabel.setForeground(Color.DARK_GRAY);
             tbdSecciones.setTabComponentAt(i, tabLabel);
         }
 
@@ -547,6 +551,97 @@ public class FormPrincipal extends JFrame {
     }
 
     // Obtener los datos de la reserva en la base de datos
+    public void setDesingPrincipal() {
+        lblInfoHora.setForeground(Color.WHITE);
+        lblInfoHora.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+        lblHora.setForeground(Color.WHITE);
+        lblHora.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        cmbEstadosMesas.setBackground(Color.DARK_GRAY);
+        cmbEstadosMesas.setForeground(Color.WHITE);
+
+
+        rbtnBebida.setForeground(Color.WHITE);
+        rbtnBebida.setBorderPainted(false);
+        rbtnBebida.setContentAreaFilled(false);
+        rbtnBebida.setFocusPainted(false);
+
+        tbdSecciones.setBackground(Color.DARK_GRAY);
+        tbdSecciones.setForeground(Color.WHITE);
+        tbdSecciones.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                tbdSecciones.setForegroundAt(tbdSecciones.getSelectedIndex(), Color.DARK_GRAY);
+            }
+        });
+
+        scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
+
+        tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        tblReservas.setBackground(Color.DARK_GRAY);
+        tblReservas.setForeground(Color.WHITE);
+        tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
+        tblReservas.setGridColor(new Color(68, 74, 70));
+
+
+        ImageIcon imgMesa1 = new ImageIcon(new ImageIcon("C:\\Users\\range\\OneDrive\\Desktop\\Proyecto Final - Pensamiento Computacional\\Nivel 1\\environment_forest_evening.png").getImage().getScaledInstance(140,70, Image.SCALE_DEFAULT));
+        btnMesa1.setText("");
+        btnMesa1.setIcon(imgMesa1);
+        btnMesa1.setBorderPainted(false);
+        btnMesa1.setContentAreaFilled(false);
+        btnMesa1.setFocusPainted(false);
+
+        btnMesa2.setText("");
+        btnMesa2.setIcon(imgMesa1);
+        btnMesa2.setBorderPainted(false);
+        btnMesa2.setContentAreaFilled(false);
+        btnMesa2.setFocusPainted(false);
+
+        btnMesa3.setText("");
+        btnMesa3.setIcon(imgMesa1);
+        btnMesa3.setBorderPainted(false);
+        btnMesa3.setContentAreaFilled(false);
+        btnMesa3.setFocusPainted(false);
+
+        btnMesa4.setText("");
+        btnMesa4.setIcon(imgMesa1);
+        btnMesa4.setBorderPainted(false);
+        btnMesa4.setContentAreaFilled(false);
+        btnMesa4.setFocusPainted(false);
+
+        btnMesa5.setText("");
+        btnMesa5.setIcon(imgMesa1);
+        btnMesa5.setBorderPainted(false);
+        btnMesa5.setContentAreaFilled(false);
+        btnMesa5.setFocusPainted(false);
+
+        btnMesa6.setText("");
+        btnMesa6.setIcon(imgMesa1);
+        btnMesa6.setBorderPainted(false);
+        btnMesa6.setContentAreaFilled(false);
+        btnMesa6.setFocusPainted(false);
+
+        btnMesa7.setText("");
+        btnMesa7.setIcon(imgMesa1);
+        btnMesa7.setBorderPainted(false);
+        btnMesa7.setContentAreaFilled(false);
+        btnMesa7.setFocusPainted(false);
+
+        btnMesa8.setText("");
+        btnMesa8.setIcon(imgMesa1);
+        btnMesa8.setBorderPainted(false);
+        btnMesa8.setContentAreaFilled(false);
+        btnMesa8.setFocusPainted(false);
+
+        btnMesa9.setText("");
+        btnMesa9.setIcon(imgMesa1);
+        btnMesa9.setBorderPainted(false);
+        btnMesa9.setContentAreaFilled(false);
+        btnMesa9.setFocusPainted(false);
+
+    }
+
 
     // RESERVA
     //===============================================================
@@ -1102,6 +1197,7 @@ public class FormPrincipal extends JFrame {
     } // Modifica la cantidad de productos en la base de datos
     public boolean getEstadoMesa(int numMesa, String estado){
         String sqlCons = "SELECT estado FROM mesas WHERE numMesa = ?";
+
         try{
             PreparedStatement pst = conn.prepareStatement(sqlCons);
             pst.setInt(1, numMesa);
@@ -1113,13 +1209,16 @@ public class FormPrincipal extends JFrame {
                 else
                     return false;
             }
-
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Error base de datos:\n" + e);
         }
         return false;
-    }
+    } // Controla si el estado pasado por parámetro es igual al de la base de datos
+    //===============================================================
 
+    // PRODUCTOS
+    //===============================================================
+    //===============================================================
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();
         if (conn == null) return;
@@ -1128,7 +1227,7 @@ public class FormPrincipal extends JFrame {
         ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Cambiar fondo(verde menta)
-        ventanaForm.getContentPane().setBackground(new Color(123, 214, 144));
+        ventanaForm.getContentPane().setBackground(Color.LIGHT_GRAY);
 
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -1,11 +1,13 @@
 package UI;
 
+import Modelo.CantidadNegativaException;
 import Modelo.CrearFactura;
 import Modelo.Pedido;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +21,8 @@ public class DialogConfirmFactura extends JDialog {
     private JButton buttonCancel;
     private JTextField txtNombre;
     private JLabel lblNombre;
+    private JLabel lblPropina;
+    private JSpinner spnPropina;
     private int numMesa;
     protected String personal;
     private String[] columnas;
@@ -66,14 +70,28 @@ public class DialogConfirmFactura extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        // Listener del Spinner de Propina
+
+        spnPropina.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int valor = (int) spnPropina.getValue();
+                if (valor < 0) {
+                    JOptionPane.showMessageDialog(null, "La cantidad de propina no puede ser negativa","Error:",  JOptionPane.ERROR_MESSAGE);
+                    spnPropina.setValue(0);
+                }
+            }
+        });
     }
 
     private void onOK() {
         if (!txtNombre.getText().isEmpty()) {
+            int propina = (int) spnPropina.getValue();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             CrearFactura factura = new CrearFactura("C:\\Users\\range\\OneDrive\\Desktop\\Factura0" + pedidos[0].getId() + ".pdf");
-            factura.crear(txtNombre.getText(), personal, fecha, hora, pedidos);
+            factura.crear(txtNombre.getText(), personal, fecha, hora, pedidos, propina);
             String sqlElimProds = "DELETE FROM pedidos WHERE mesa = ?";
 
             try{

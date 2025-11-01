@@ -6,8 +6,8 @@ public class Bebida extends Producto {
     }
 
     @Override
-    public double getTotal(int impuesto, double  prop){
-        double total = getPrecio() + getPrecio() * (impuesto/100) + prop;
+    public double getTotal(float impuesto){
+        double total = getPrecio() + getPrecio() * (impuesto/100);
         return total;
     }
 

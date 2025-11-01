@@ -29,7 +29,7 @@ public abstract class Producto {
     public void setStock(int stock) { this.stock = stock; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public abstract double getTotal(int impuesto, double prop);
+    public abstract double getTotal(float impuesto);
 
     @Override
     public String toString() {

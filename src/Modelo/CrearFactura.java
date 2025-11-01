@@ -31,7 +31,7 @@ public class CrearFactura {
     // Setter
     public void setPath(String path) {this.path = path;}
 
-    public void crear(String nombre, String personal, LocalDate fecha, LocalTime tiempo, Pedido[] pedido){
+    public void crear(String nombre, String personal, LocalDate fecha, LocalTime tiempo, Pedido[] pedido, int propina){
         try {
             // Crear documento
             Document documento = new Document();
@@ -97,7 +97,16 @@ public class CrearFactura {
             for (int i = 0; i < pedido.length; i++){
                 finalTotal += pedido[i].getTotales();
             }
-            Paragraph total = new Paragraph("TOTAL: $" + finalTotal, fontBold);
+            Paragraph prop = new Paragraph("Propina: $" + propina, fontNormal);
+            prop.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(prop);
+
+            double impuesto = (finalTotal * 0.22);
+            Paragraph imp = new Paragraph("Impuesto 22%: $" + impuesto, fontNormal);
+            imp.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(imp);
+
+            Paragraph total = new Paragraph("TOTAL: $" + (finalTotal + impuesto + propina), fontBold);
             total.setAlignment(Element.ALIGN_RIGHT);
             documento.add(total);
 

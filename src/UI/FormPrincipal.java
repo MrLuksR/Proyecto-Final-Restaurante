@@ -1294,7 +1294,7 @@ public class FormPrincipal extends JFrame {
         String valor;
 
         for (int i = 0; i < lenProductos; i++) {
-            valor = tblPedidosMesas.getValueAt(i, 5).toString();
+            valor = tblPedidosMesas.getValueAt(i, 2).toString();
             if (!valor.equals("Servido"))
                 return false;
         }

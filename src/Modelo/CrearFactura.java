@@ -6,13 +6,17 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -40,7 +44,9 @@ public class CrearFactura {
             Font fontBold = FontFactory.getFont(FontFactory.COURIER_BOLD, 10);
 
             // Encabezado
-            Paragraph titulo = new Paragraph("***** FACTURA ELECTRÓNICA *****", fontTitulo);
+            //Paragraph titulo = new Paragraph("***** FACTURA ELECTRÓNICA *****", fontTitulo);
+            Image titulo = Image.getInstance("C:\\Users\\range\\IdeaProjects\\Imagenes\\Logo.png");
+            titulo.scalePercent(50);
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
 
@@ -109,6 +115,10 @@ public class CrearFactura {
             JOptionPane.showMessageDialog(null, "Error en el documento:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error de archivo:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

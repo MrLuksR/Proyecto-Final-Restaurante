@@ -160,7 +160,7 @@ public class FormIngreso extends JFrame {
 
     void validarUsuario(String user, String contra){
         String sqlUser = "SELECT user_name FROM personal WHERE user_name = ?"; // Para usuario
-        String sqlContra = "SELECT contra FROM personal WHERE contra = ?";
+        String sqlContra = "SELECT contra, nombre, apellido FROM personal WHERE contra = ?";
         try {
             /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
              * Luego creamos un ResultSet para comprobar el resultado obtenido de esa consulta*/
@@ -177,10 +177,11 @@ public class FormIngreso extends JFrame {
 
                 ResultSet rsContra = pst.executeQuery();
                 if (rsContra.next()) { // Comprobamos si existe resultado
+                    String personal = rsContra.getString("nombre") + " " + rsContra.getString("apellido");
                     txtUser.setBackground(Color.green);
                     pwdContra.setBackground(Color.green);
-                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    FormPrincipal main = new FormPrincipal(conn);
+                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso\n" + "Bienvenido " + personal, "Información", JOptionPane.INFORMATION_MESSAGE);
+                    FormPrincipal main = new FormPrincipal(conn, personal);
                     main.setVisible(true);
                     this.dispose();
                 }
@@ -215,18 +216,14 @@ public class FormIngreso extends JFrame {
 
         String username = System.getenv("USERNAME");
 
-        ImageIcon tituloImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Titulo.png");
-        //ImageIcon tituloImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Titulo.png").getImage().getScaledInstance(1366,167, Image.SCALE_SMOOTH));
-        ImageIcon abajoImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png");
-        //ImageIcon abajoImg = new ImageIcon(new ImageIcon("C:/Users/Usuario/IdeaProjects/Imagenes/Abajo.png").getImage().getScaledInstance(1366,27, Image.SCALE_SMOOTH));
+        ImageIcon tituloImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Logo.png");
+        //ImageIcon tituloImg = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Titulo.png").getImage().getScaledInstance(1366,167, Image.SCALE_SMOOTH));
+        //ImageIcon abajoImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png");
+        //ImageIcon abajoImg = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png").getImage().getScaledInstance(1366,27, Image.SCALE_SMOOTH));
 
         lblTitulo.setText("");
         lblTitulo.setVisible(true);
         lblTitulo.setIcon(tituloImg);
-
-        lblAbajo.setText("");
-        lblAbajo.setVisible(true);
-        lblAbajo.setIcon(abajoImg);
 
         ImageIcon salirBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Salir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
         ImageIcon salirPresBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/SalirPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
@@ -247,8 +244,8 @@ public class FormIngreso extends JFrame {
         btnSalir.setContentAreaFilled(false);   // Quita el fondo
         btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        botonMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_SMOOTH));
-        botonNoMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_SMOOTH));
+        botonMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonNoMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
 
         btnShowContra.setText("");
         btnShowContra.setIcon(botonMostrar);
@@ -285,7 +282,7 @@ public class FormIngreso extends JFrame {
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //ventanaForm.setSize(1366, 768);
-        ventanaForm.setUndecorated(false); // true = sin bordes, false = con bordes
+        //ventanaForm.setUndecorated(true); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
     }
 

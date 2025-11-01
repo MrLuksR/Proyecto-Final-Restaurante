@@ -2,9 +2,7 @@ package UI;
 
 import InterfacesEimpl.ConexionBD;
 import InterfacesEimpl.FinalDAO;
-import Modelo.CantidadNegativaException;
-import Modelo.Reserva;
-import Modelo.StockInsuficienteException;
+import Modelo.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -15,6 +13,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class FormPrincipal extends JFrame {
     private JPanel vntPrincipal;
@@ -85,21 +84,29 @@ public class FormPrincipal extends JFrame {
     private JButton btnCambEstadoProdMesas;
     private JLabel lblTotalProdMesas;
     private JLabel lblTotalPedidMesasInfo;
+    private JPanel vtnCarta;
+    private JPanel vtnHistorial;
     private DefaultComboBoxModel mdlComboBoxPersonalMesas; // Modelo de comboBox para seleccionar personal
     private DefaultTableModel mdlTblPedidosMesas; // Modelo de tabla para pedidos
     private String[] columnasMesasPedidos = {"ID", "Mesa", "Estado", "Producto", "Cantidad", "Totales"}; // Columnas para la tabla de pedidos
     private DefaultComboBoxModel mdlComboBoxProductosMesas;
     public Connection conn;
+    protected String personal;
     boolean cedula, apellido, fecha, hora;
 
-    public FormPrincipal(Connection conn) {
+    public FormPrincipal(Connection conn, String personal) {
         this.conn = conn;
+        this.personal = personal;
         validarBtnAgregar();
         setContentPane(vntPrincipal);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         spnCantidadProdMesas.setPreferredSize(new Dimension(50, 25));
         cmbPersonal.setPreferredSize(new Dimension(100, 25));
         spnCantidadProdMesas.setValue(1);
+
+        DefaultTableModel mdl = new DefaultTableModel();
+
+        mdl.setDataVector(datosPedidosMesas(3), columnasMesasPedidos);
 
         //setDesingPrincipal();
 
@@ -122,6 +129,7 @@ public class FormPrincipal extends JFrame {
 
         // RESERVAS
         //=================================================================================
+
         // Establecer los spinners con la fecha actual
         spnFechaDia.setValue(hoy.getDayOfMonth());
         spnFechaMes.setValue(hoy.getMonthValue());
@@ -191,7 +199,7 @@ public class FormPrincipal extends JFrame {
         cmbOrder.setModel(new DefaultComboBoxModel(items));
 
         // ComboBox en Agregar Reservas
-        String[] mesas = {"1","2","3","4","5","6","7","8","9","10"};
+        String[] mesas = {"1","2","3","4","5","6","7","8","9"};
         DefaultComboBoxModel<String> cmbModel =  new DefaultComboBoxModel(mesas);
         cmbMesa.setModel(cmbModel);
 
@@ -333,8 +341,6 @@ public class FormPrincipal extends JFrame {
 
         // MESAS
         //===============================================================================
-        // Diseño
-        // Diseño
 
         // ComboBox Estados
         String[] estados = {"Libre", "Ocupada", "Limpieza"};
@@ -455,11 +461,12 @@ public class FormPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String nombrePedido = tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 3).toString();
                 int opc = JOptionPane.showOptionDialog(null, "¿Eliminar pedido " + nombrePedido + "?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (opc == JOptionPane.YES_OPTION) {
+                String estado = tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 2).toString();
+                if (opc == JOptionPane.YES_OPTION && !(estado.equals("Servido") || estado.equals("Listo"))) {
                     int id = Integer.parseInt(tblPedidosMesas.getValueAt(tblPedidosMesas.getSelectedRow(), 0).toString());
                     int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
                     eliminarFila("pedidos","id_pedido", id);
-                    String sqlAutoIncr = "ALTER TABLE reservas AUTO_INCREMENT = ?";
+                    String sqlAutoIncr = "ALTER TABLE pedidos AUTO_INCREMENT = ?";
                     try{
                         PreparedStatement pst = conn.prepareStatement(sqlAutoIncr);
                         pst.setInt(1, id);
@@ -467,10 +474,13 @@ public class FormPrincipal extends JFrame {
                         pst.close();
                         mdlTblPedidosMesas.setDataVector(datosPedidosMesas(numMesa), columnasMesasPedidos);
                         tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                        lblTotalPedidMesasInfo.setText("$" + getTotales());
                         JOptionPane.showMessageDialog(null,"Producto Eliminado");
                     }catch(Exception ex){
                         JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
                     }
+                }else if (estado.equals("Servido") || estado.equals("Listo")) {
+                    JOptionPane.showMessageDialog(null,"No se puede eliminar el producto:\nproducto (" + estado +")", "Información", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -487,12 +497,14 @@ public class FormPrincipal extends JFrame {
                 getProductos("'Comida'");
             }
         });
+        // Radio Button BEBIDA
         rbtnBebida.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getProductos("'Bebida'");
             }
         });
+        // Radio Button POSTRE
         rbtnPostre.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -546,6 +558,23 @@ public class FormPrincipal extends JFrame {
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
                 }
+            }
+        });
+
+        // Listener de botón Cerrar Pedido
+        btnCerrarPedidoMesa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+                int opc = JOptionPane.showOptionDialog(null, "¿Cerrar pedido de la mesa" + numMesa + "?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (opc == JOptionPane.YES_OPTION && datosPedidosMesas(numMesa) != null && cerrarPedido()) {
+                    DialogConfirmFactura dialog = new DialogConfirmFactura(conn, numMesa, personal, columnasMesasPedidos, tblPedidosMesas, recuentoDePedidos(), mdlTblPedidosMesas);
+                    dialog.setBounds(200, 200, 450, 300);
+                    dialog.setVisible(true);
+                }else if (datosPedidosMesas(numMesa) == null)
+                    JOptionPane.showMessageDialog(null, "Lista de pedidos vacía", "Información", JOptionPane.INFORMATION_MESSAGE);
+                else if (!cerrarPedido())
+                    JOptionPane.showMessageDialog(null, "Hay pedidos pendientes", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
@@ -876,6 +905,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(1), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -893,6 +923,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(2), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -910,6 +941,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(3), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -927,6 +959,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(4), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -944,6 +977,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(5), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -961,6 +995,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(6), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -978,6 +1013,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(7), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -995,6 +1031,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(8), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
 
@@ -1012,6 +1049,7 @@ public class FormPrincipal extends JFrame {
                 getMeseros();
                 mdlTblPedidosMesas.setDataVector(datosPedidosMesas(9), columnasMesasPedidos);
                 tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                lblTotalPedidMesasInfo.setText("$" + getTotales());
             }
         });
     } // Los lísteners de los botones de las mesas (para limpiar un poco el código)
@@ -1053,14 +1091,14 @@ public class FormPrincipal extends JFrame {
             String[][] matrizPedidosFinal = new String[total][6];
 
             // Creamos lo necesario para obtener la fila con datos de pedidos
-            String sqlReserva = "SELECT id_pedido, mesa, estado, productos.nombre AS producto, cantidad, totales FROM pedidos\n" +
+            String sqlPedidos = "SELECT id_pedido, productos.precio, mesa, estado, productos.nombre AS producto, cantidad, totales FROM pedidos\n" +
                     "INNER JOIN productos ON pedidos.producto = productos.idProducto WHERE mesa = " + numMesa; // Para obtener una fila de pedidos
 
             /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
              * Luego creamos un ResultSet para comprobar el resultado obtenido de esa consulta*/
 
             int i = 0;
-            pst = conn.prepareStatement(sqlReserva, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = conn.prepareStatement(sqlPedidos, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rsPedidos = pst.executeQuery();
             while (rsPedidos.next()) {
                 matrizPedidosFinal[i][0] = String.valueOf(rsPedidos.getInt("id_pedido"));
@@ -1156,6 +1194,8 @@ public class FormPrincipal extends JFrame {
                         // Establecer nuevos datos a la tabla
                         mdlTblPedidosMesas.setDataVector(datosPedidosMesas(mesa), columnasMesasPedidos);
                         tblPedidosMesas.setModel(mdlTblPedidosMesas);
+                        lblTotalPedidMesasInfo.setText("$" + getTotales());
+                        JOptionPane.showMessageDialog(null, "Producto/s agregados a mesa " + numMesa, "Información", JOptionPane.INFORMATION_MESSAGE);
                     }
                     rs.close();
                 }
@@ -1179,10 +1219,13 @@ public class FormPrincipal extends JFrame {
                 if (cant <= stock){
                     String sqlUpdateStock = "UPDATE productos SET stock = ? WHERE nombre = ?";
                     pst = conn.prepareStatement(sqlUpdateStock);
-                    pst.setInt(1, stock - cant);
+                    int total = stock - cant;
+                    pst.setInt(1, total);
                     pst.setString(2, nombre);
                     pst.execute();
                     rs.close();
+                    if (total <= 5)
+                        JOptionPane.showMessageDialog(null, "Cantidades por debajo de 5", "Información", JOptionPane.WARNING_MESSAGE);
                     return true;
                 }else{
                     StockInsuficienteException ex =  new StockInsuficienteException("Stock insuficiente");
@@ -1214,15 +1257,58 @@ public class FormPrincipal extends JFrame {
         }
         return false;
     } // Controla si el estado pasado por parámetro es igual al de la base de datos
+    public double getTotales(){
+        int numMesa = Integer.parseInt(lblNumeroMesaInfo.getText());
+        if (datosPedidosMesas(numMesa) != null){
+            double totales = 0;
+            for (int i = 0; i < tblPedidosMesas.getRowCount(); i++) {
+                totales += Integer.parseInt(tblPedidosMesas.getValueAt(i, 5).toString());
+            }
+            return totales;
+        }
+        return 0;
+    } // Suma todas las filas del total de los pedidos
+    public Pedido[] recuentoDePedidos() {
+        int lenPedidos = tblPedidosMesas.getRowCount();
+        int lenAtributos = tblPedidosMesas.getColumnCount();
+        Pedido[] totalPedidos = new Pedido[lenPedidos];
+        String[] atributos = new String[lenAtributos];
+
+        for (int i = 0; i < lenPedidos; i++) {
+            for (int j = 0; j < lenAtributos; j++) {
+                atributos[j] = tblPedidosMesas.getValueAt(i, j).toString();
+            }
+            totalPedidos[i] = new Pedido(
+                    Integer.parseInt(atributos[0]),
+                    Integer.parseInt(atributos[1]),
+                    atributos[2],
+                    atributos[3],
+                    Integer.parseInt(atributos[4]),
+                    Double.parseDouble(atributos[5])
+                );
+            }
+            return totalPedidos;
+    } // Retorna un array de Pedidos
+    public boolean cerrarPedido(){
+        int lenProductos = tblPedidosMesas.getRowCount();
+        String valor;
+
+        for (int i = 0; i < lenProductos; i++) {
+            valor = tblPedidosMesas.getValueAt(i, 5).toString();
+            if (!valor.equals("Servido"))
+                return false;
+        }
+        return true;
+    } // Controla que todos los pedidos hayan sido servidos para poder cerrar
     //===============================================================
 
-    // PRODUCTOS
+    // PRODUCTOS / CARTA
     //===============================================================
     //===============================================================
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();
         if (conn == null) return;
-        FormPrincipal ventanaForm = new FormPrincipal(conn);
+        FormPrincipal ventanaForm = new FormPrincipal(conn, "");
         ventanaForm.setContentPane(ventanaForm.vntPrincipal);
         ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -1231,14 +1317,16 @@ public class FormPrincipal extends JFrame {
 
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //ventanaForm.setSize(1366, 768);
+        //ventanaForm.setSize(1280, 720);
         ventanaForm.setVisible(true);
     }
 
-    /*private void createUIComponents() {
+    /*
+    private void createUIComponents() {
         // TODO: place custom component creation code here
         String username = System.getenv("USERNAME");
         vntReservas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
         vntMesas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
-    }*/
+    }
+     */
 }

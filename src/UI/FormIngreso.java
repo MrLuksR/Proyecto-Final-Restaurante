@@ -216,7 +216,7 @@ public class FormIngreso extends JFrame {
 
         String username = System.getenv("USERNAME");
 
-        ImageIcon logueishon = new ImageIcon("/Imagenes/Fondo.png");
+        ImageIcon logueishon = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/Logo.png").getImage().getScaledInstance(551,428, Image.SCALE_SMOOTH));
 
         lblTitulo.setText("");
         lblTitulo.setVisible(true);
@@ -299,6 +299,6 @@ public class FormIngreso extends JFrame {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         String username = System.getenv("USERNAME");
-        vntIngreso = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
+        vntIngreso = new PanelConFondo("/Imagenes/Background.png");
     }
 }

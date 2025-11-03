@@ -222,10 +222,10 @@ public class FormIngreso extends JFrame {
         lblTitulo.setVisible(true);
         lblTitulo.setIcon(logueishon);
 
-        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalirPres.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresar.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresarPres.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalir.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalirPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
 
         btnIngresar.setText("");
         btnIngresar.setIcon(botonIngresar);

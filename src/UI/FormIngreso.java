@@ -249,6 +249,19 @@ public class FormIngreso extends JFrame {
         btnShowContra.setBorderPainted(false);
         btnShowContra.setContentAreaFilled(false);
         btnShowContra.setFocusPainted(false);
+
+        lblUserName.setForeground(new Color(44, 49, 58));
+        lblUserName.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblContra.setForeground(new Color(44, 49, 58));
+        lblContra.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblInfoUser.setForeground(new Color(44, 49, 58));
+        lblInfoUser.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblInfoContra.setForeground(new Color(44, 49, 58));
+        lblInfoContra.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
     }
 
     /*

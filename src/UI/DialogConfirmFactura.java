@@ -72,14 +72,15 @@ public class DialogConfirmFactura extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         // Listener del Spinner de Propina
-
         spnPropina.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+                CantidadNegativaException ex = new CantidadNegativaException("La cantidad no puede ser negativa");
                 int valor = (int) spnPropina.getValue();
                 if (valor < 0) {
-                    JOptionPane.showMessageDialog(null, "La cantidad de propina no puede ser negativa","Error:",  JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE);
                     spnPropina.setValue(0);
+                    throw ex;
                 }
             }
         });

@@ -13,7 +13,6 @@ import java.awt.event.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class FormPrincipal extends JFrame {
     private JPanel vntPrincipal;
@@ -86,13 +85,38 @@ public class FormPrincipal extends JFrame {
     private JLabel lblTotalPedidMesasInfo;
     private JPanel vtnCarta;
     private JPanel vtnHistorial;
+    private JLabel lblCarta;
+    private JLabel lblSubTit;
+    private JTable tblProductos;
+    private JLabel lblTituloAgregProd;
+    private JTextField txtProdNombre;
+    private JLabel lblProdNombre;
+    private JLabel lblProdPrecio;
+    private JTextField txtProdPrecio;
+    private JLabel lblProdCateg;
+    private JComboBox cmbProdCateg;
+    private JLabel lblProdDescr;
+    private JTextField txtProdDescr;
+    private JLabel lblModStockProducto;
+    private JLabel lblProdStock;
+    private JSpinner spnModProdStock;
+    private JButton btnAgregProdCarta;
+    private JButton btnModStock;
+    private JLabel lblNomProdInfo;
+    private JLabel lblPrecioProdInfo;
+    private JButton btnElimProdCarta;
+    private JLabel lblCantProdMesas;
+    private JScrollPane scrTablaProductos;
+    private JLabel lblProdSelecInfo;
     private DefaultComboBoxModel mdlComboBoxPersonalMesas; // Modelo de comboBox para seleccionar personal
     private DefaultTableModel mdlTblPedidosMesas; // Modelo de tabla para pedidos
     private String[] columnasMesasPedidos = {"ID", "Mesa", "Estado", "Producto", "Cantidad", "Totales"}; // Columnas para la tabla de pedidos
     private DefaultComboBoxModel mdlComboBoxProductosMesas;
+    //private DefaultTableModel mdlTblProductosCarta;
     public Connection conn;
     protected String personal;
-    boolean cedula, apellido, fecha, hora;
+    boolean cedula, apellido, fecha = true, hora;
+    boolean nombre, precio;
 
     public FormPrincipal(Connection conn, String personal) {
         this.conn = conn;
@@ -329,9 +353,9 @@ public class FormPrincipal extends JFrame {
                     int cbmIndex = cmbOrder.getSelectedIndex();
                     mdlTblReservas.setDataVector(datosReserva(cbmIndex), columnas);
                     tblReservas.setModel(mdlTblReservas);
-                    lblNumeroMesaInfo.setText("nada");
-                    lblEstadoInfo.setText("nada");
-                    lblPersonalInfo.setText("nada");
+                    lblNumeroMesaInfo.setText("(selec. mesa)");
+                    lblEstadoInfo.setText("(selec. mesa)");
+                    lblPersonalInfo.setText("(selec. mesa)");
                     setEnabledAtMesaSelec(false);
                 }catch(SQLException ex){
                     JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
@@ -575,6 +599,170 @@ public class FormPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(null, "Lista de pedidos vacía", "Información", JOptionPane.INFORMATION_MESSAGE);
                 else if (!cerrarPedido())
                     JOptionPane.showMessageDialog(null, "Hay pedidos pendientes", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        // PRODUCTOS / CARTA
+        //===============================================================================
+
+        // Tabla de Productos
+        String[] prodColumns = {"Id", "Nombre", "Precio", "Categoría", "Stock", "Descr."};
+        DefaultTableModel mdlTblProdCarta = new DefaultTableModel(datosProductosCarta(), prodColumns);
+        tblProductos.setModel(mdlTblProdCarta);
+        tblProductos.setDefaultEditor(Object.class, null); // No permite que la tabla sea editable
+        tblProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solamente un elemento
+        tblProductos.getTableHeader().setReorderingAllowed(false);
+
+        // ComboBox de Categoría
+        String[] categ = {"Comida", "Bebida", "Postre"};
+        cmbProdCateg.setModel(new DefaultComboBoxModel(categ));
+
+        // Listener de activación del botón Modificar Stock, spinner y botón eliminar
+        tblProductos.getSelectionModel().addListSelectionListener(e -> {
+            boolean filaSeleccionada = tblProductos.getSelectedRow() != -1;
+            btnElimProdCarta.setEnabled(filaSeleccionada);
+            btnModStock.setEnabled(filaSeleccionada);
+            spnModProdStock.setEnabled(filaSeleccionada);
+            if (tblProductos.getSelectedRow() != -1) {
+                String nombre = tblProductos.getValueAt(tblProductos.getSelectedRow(), 1).toString();
+                lblProdSelecInfo.setText(nombre);}
+            else
+                lblProdSelecInfo.setText("(selec. producto)");
+        });
+
+        // Listener del texto de Nombre
+        txtProdNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (txtProdNombre.getText().length() == 0) {
+                    txtProdNombre.setBackground(Color.YELLOW);
+                    lblNomProdInfo.setText("El campo no puede estar vacío");
+                    nombre = false;
+                }else{
+                    txtProdNombre.setBackground(Color.WHITE);
+                    lblNomProdInfo.setText("");
+                    nombre = true;
+                }
+                validarBtnAgregarProdCarta();
+            }
+        });
+
+        // Listener del texto Precio
+        txtProdPrecio.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+
+                if (txtProdPrecio.getText().length() == 0) {
+                    txtProdPrecio.setBackground(Color.YELLOW);
+                    lblPrecioProdInfo.setText("El campo no puede estar vacio");
+                    precio = false;
+                }else if (!txtProdPrecio.getText().matches("[0-9]+")) {
+                    txtProdPrecio.setBackground(Color.RED);
+                    lblPrecioProdInfo.setText("El campo solo puede contener números");
+                    precio = false;
+                }else{
+                    txtProdPrecio.setBackground(Color.WHITE);
+                    lblPrecioProdInfo.setText("");
+                    precio = true;
+                }
+                validarBtnAgregarProdCarta();
+            }
+        });
+
+        // Listener de botón Agregar Producto
+        btnAgregProdCarta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int opc = JOptionPane.showOptionDialog(null, "¿Agregar " + txtProdNombre.getText() + " a la carta?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (opc == JOptionPane.YES_OPTION) {
+                    Producto p1;
+                    try {
+                        FinalDAO f1 = new FinalDAO(conn);
+                        switch (cmbProdCateg.getSelectedIndex()) {
+                            case 0:
+                                p1 = new Comida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarComida((Comida) p1); break;
+                            case 1:
+                                p1 = new Bebida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarBebida((Bebida) p1); break;
+                            case 2:
+                                p1 = new Postre(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarPostre((Postre) p1); break;
+                        }
+                        mdlTblProdCarta.setDataVector(datosProductosCarta(), prodColumns);
+                        JOptionPane.showMessageDialog(null, txtProdNombre.getText() + " agregado a la carta");
+                    }catch(SQLException ex){
+                        JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        // Listener spinner de modificar stock
+        spnModProdStock.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(javax.swing.event.ChangeEvent e) {
+                CantidadNegativaException ex = new CantidadNegativaException("La cantidad no puede ser negativa");
+                int valor = (int) spnModProdStock.getValue();
+                if (valor < 0) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE);
+                    spnModProdStock.setValue(0);
+                    throw ex;
+                }
+            }
+        });
+
+        // Listener de cambio de Stock
+        btnModStock.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = tblProductos.getValueAt(tblProductos.getSelectedRow(), 1).toString();
+                int stock = Integer.parseInt(spnModProdStock.getValue().toString());
+                int opc = JOptionPane.showOptionDialog(null, "¿Modificar stock de " + name + " a " + stock + "?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (opc == JOptionPane.YES_OPTION) {
+                    int id = Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString());
+                    String sqlChangeStock = "UPDATE productos SET stock = ? WHERE idProducto = ?";
+
+                    try {
+                        PreparedStatement pst = conn.prepareStatement(sqlChangeStock);
+                        pst.setInt(1, stock);
+                        pst.setInt(2, id);
+                        pst.executeUpdate();
+                        mdlTblProdCarta.setValueAt(stock, tblProductos.getSelectedRow(), 4);
+                        JOptionPane.showMessageDialog(null, "Stock de " + name + " modificado a " + stock);
+                        pst.close();
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        // Listener de botón eliminar Producto
+        btnElimProdCarta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int opc = JOptionPane.showOptionDialog(null, "¿Eliminar este producto?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int valor = Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString());
+                try{
+                    if (opc == JOptionPane.YES_OPTION && eliminarFila("productos", "idProducto", valor)) {
+                        String sqlAutoIncr = "ALTER TABLE productos AUTO_INCREMENT = ?";
+                        PreparedStatement pst = conn.prepareStatement(sqlAutoIncr);
+                        pst.setInt(1, valor);
+                        pst.execute();
+
+                        pst.close();
+
+                        mdlTblProdCarta.removeRow(tblProductos.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "Producto eliminado");
+                    }
+                }catch (SQLException ex){
+                    JOptionPane.showMessageDialog(null, "Error al eliminar este producto\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -1304,11 +1492,59 @@ public class FormPrincipal extends JFrame {
 
     // PRODUCTOS / CARTA
     //===============================================================
+    public String[][] datosProductosCarta(){
+        try {
+            String sqlTotalProductos = "SELECT COUNT(idProducto) AS total FROM productos";// Cuenta todas los productos que hay
+            PreparedStatement pst = conn.prepareStatement(sqlTotalProductos);
+            ResultSet totalRes = pst.executeQuery(); // Número total de pedidos
+            int total = 0;
+            if (totalRes.next()) {
+                total = totalRes.getInt("total");
+            }
+
+            String[][] matrizProductosFinal = new String[total][6];
+
+            // Creamos lo necesario para obtener la fila con datos de productos
+            String sqlProductos = "SELECT idProducto, nombre, precio, categoria, stock, descripcion FROM productos"; // Para obtener una fila de productos
+
+            /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
+             * Luego creamos un ResultSet para comprobar el resultado obtenido de esa consulta*/
+
+            int i = 0;
+            pst = conn.prepareStatement(sqlProductos, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rsProductos = pst.executeQuery();
+            while (rsProductos.next()) {
+                matrizProductosFinal[i][0] = String.valueOf(rsProductos.getInt("idProducto"));
+                matrizProductosFinal[i][1] = rsProductos.getString("nombre");
+                matrizProductosFinal[i][2] = String.valueOf(rsProductos.getDouble("precio"));
+                matrizProductosFinal[i][3] = rsProductos.getString("categoria");
+                matrizProductosFinal[i][4] = String.valueOf(rsProductos.getInt("stock"));
+                matrizProductosFinal[i][5] = rsProductos.getString("descripcion");
+                i++;
+            }
+
+            // Cerramos el PreparedStatement y ResultSet
+            rsProductos.close();
+            totalRes.close();
+            pst.close();
+
+            return matrizProductosFinal;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return new String[0][0];
+        }
+    } // Trae los productos de una mesa a una Matriz para aplicar a la tabla
+    void validarBtnAgregarProdCarta(){
+        if (nombre && precio)
+            btnAgregProdCarta.setEnabled(true);
+        else
+            btnAgregProdCarta.setEnabled(false);
+    } // Activa el botón agregar producto a la carta
     //===============================================================
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();
         if (conn == null) return;
-        FormPrincipal ventanaForm = new FormPrincipal(conn, "");
+        FormPrincipal ventanaForm = new FormPrincipal(conn, "PRUEBA DESDE MAIN");
         ventanaForm.setContentPane(ventanaForm.vntPrincipal);
         ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

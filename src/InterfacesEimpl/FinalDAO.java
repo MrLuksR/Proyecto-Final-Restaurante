@@ -25,18 +25,25 @@ public final class FinalDAO implements GeneralDAO{
     }
 
     @Override
-    public long guardarComida(Comida com) throws SQLException {
-        return 0;
+    public void guardarComida(Comida com) throws SQLException {
+        String sqlAgreg = "INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement pst = conn.prepareStatement(sqlAgreg);
+        pst.setString(1, com.getNombre());
+        pst.setDouble(2, com.getPrecio());
+        pst.setString(3, com.getCategoria());
+        pst.setInt(4, com.getStock());
+        pst.setString(5, com.getDescripcion());
+        pst.executeUpdate();
+        pst.close();
     }
 
     @Override
-    public long guardarBebida(Bebida beb) throws SQLException {
-        return 0;
+    public void guardarBebida(Bebida beb) throws SQLException {
     }
 
     @Override
-    public long guardarPostre(Postre pos) throws SQLException {
-        return 0;
+    public void guardarPostre(Postre pos) throws SQLException {
     }
 
     @Override

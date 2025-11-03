@@ -132,7 +132,7 @@ public class FormPrincipal extends JFrame {
 
         mdl.setDataVector(datosPedidosMesas(3), columnasMesasPedidos);
 
-        //setDesingPrincipal();
+        setDesignReservas();
 
         // Personalizar el tamaño de las pestañas de JTabbedPane
         for (int i = 0; i < tbdSecciones.getTabCount(); i++) {
@@ -768,95 +768,43 @@ public class FormPrincipal extends JFrame {
     }
 
     // Obtener los datos de la reserva en la base de datos
-    public void setDesingPrincipal() {
-        lblInfoHora.setForeground(Color.WHITE);
-        lblInfoHora.setFont(new Font("Tahoma", Font.BOLD, 18));
+    public void setDesignReservas() {
 
-        lblHora.setForeground(Color.WHITE);
+        lblOrder.setForeground(new Color(44, 49, 58));
+        lblOrder.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblCedula.setForeground(new Color(44, 49, 58));
+        lblCedula.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblApellido.setForeground(new Color(44, 49, 58));
+        lblApellido.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblFecha.setForeground(new Color(44, 49, 58));
+        lblFecha.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblInfoCedula.setForeground(new Color(44, 49, 58));
+        lblInfoCedula.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblInfoApellido.setForeground(new Color(44, 49, 58));
+        lblInfoApellido.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblHora.setForeground(new Color(44, 49, 58));
         lblHora.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        cmbEstadosMesas.setBackground(Color.DARK_GRAY);
-        cmbEstadosMesas.setForeground(Color.WHITE);
+        lblMesa.setForeground(new Color(44, 49, 58));
+        lblMesa.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
+        lblPersonas.setForeground(new Color(44, 49, 58));
+        lblPersonas.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        rbtnBebida.setForeground(Color.WHITE);
-        rbtnBebida.setBorderPainted(false);
-        rbtnBebida.setContentAreaFilled(false);
-        rbtnBebida.setFocusPainted(false);
+        lblCantidad.setForeground(new Color(44, 49, 58));
+        lblCantidad.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        tbdSecciones.setBackground(Color.DARK_GRAY);
-        tbdSecciones.setForeground(Color.WHITE);
-        tbdSecciones.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                tbdSecciones.setForegroundAt(tbdSecciones.getSelectedIndex(), Color.DARK_GRAY);
-            }
-        });
+        lblInfoFecha.setForeground(new Color(44, 49, 58));
+        lblInfoFecha.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
-
-        tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
-        tblReservas.setBackground(Color.DARK_GRAY);
-        tblReservas.setForeground(Color.WHITE);
-        tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
-        tblReservas.setGridColor(new Color(68, 74, 70));
-
-
-        ImageIcon imgMesa1 = new ImageIcon(new ImageIcon("C:\\Users\\range\\OneDrive\\Desktop\\Proyecto Final - Pensamiento Computacional\\Nivel 1\\environment_forest_evening.png").getImage().getScaledInstance(140,70, Image.SCALE_DEFAULT));
-        btnMesa1.setText("");
-        btnMesa1.setIcon(imgMesa1);
-        btnMesa1.setBorderPainted(false);
-        btnMesa1.setContentAreaFilled(false);
-        btnMesa1.setFocusPainted(false);
-
-        btnMesa2.setText("");
-        btnMesa2.setIcon(imgMesa1);
-        btnMesa2.setBorderPainted(false);
-        btnMesa2.setContentAreaFilled(false);
-        btnMesa2.setFocusPainted(false);
-
-        btnMesa3.setText("");
-        btnMesa3.setIcon(imgMesa1);
-        btnMesa3.setBorderPainted(false);
-        btnMesa3.setContentAreaFilled(false);
-        btnMesa3.setFocusPainted(false);
-
-        btnMesa4.setText("");
-        btnMesa4.setIcon(imgMesa1);
-        btnMesa4.setBorderPainted(false);
-        btnMesa4.setContentAreaFilled(false);
-        btnMesa4.setFocusPainted(false);
-
-        btnMesa5.setText("");
-        btnMesa5.setIcon(imgMesa1);
-        btnMesa5.setBorderPainted(false);
-        btnMesa5.setContentAreaFilled(false);
-        btnMesa5.setFocusPainted(false);
-
-        btnMesa6.setText("");
-        btnMesa6.setIcon(imgMesa1);
-        btnMesa6.setBorderPainted(false);
-        btnMesa6.setContentAreaFilled(false);
-        btnMesa6.setFocusPainted(false);
-
-        btnMesa7.setText("");
-        btnMesa7.setIcon(imgMesa1);
-        btnMesa7.setBorderPainted(false);
-        btnMesa7.setContentAreaFilled(false);
-        btnMesa7.setFocusPainted(false);
-
-        btnMesa8.setText("");
-        btnMesa8.setIcon(imgMesa1);
-        btnMesa8.setBorderPainted(false);
-        btnMesa8.setContentAreaFilled(false);
-        btnMesa8.setFocusPainted(false);
-
-        btnMesa9.setText("");
-        btnMesa9.setIcon(imgMesa1);
-        btnMesa9.setBorderPainted(false);
-        btnMesa9.setContentAreaFilled(false);
-        btnMesa9.setFocusPainted(false);
-
+        lblInfoHora.setForeground(new Color(44, 49, 58));
+        lblInfoHora.setFont(new Font("Times New Roman", Font.BOLD, 18));
     }
 
 

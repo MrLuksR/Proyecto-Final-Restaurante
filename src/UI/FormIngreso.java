@@ -31,7 +31,7 @@ public class FormIngreso extends JFrame {
 
     public FormIngreso() throws SQLException {
 
-        setDesign();
+        setDesignPrincipal();
 
         // Listener de texto de Usuario
         txtUser.addKeyListener(new KeyAdapter() {
@@ -211,7 +211,7 @@ public class FormIngreso extends JFrame {
         }
     }
 
-    void setDesign(){
+    void setDesignPrincipal(){
         getRootPane().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         String username = System.getenv("USERNAME");

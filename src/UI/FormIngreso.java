@@ -216,36 +216,33 @@ public class FormIngreso extends JFrame {
 
         String username = System.getenv("USERNAME");
 
-        ImageIcon tituloImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Logo.png");
-        //ImageIcon tituloImg = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Titulo.png").getImage().getScaledInstance(1366,167, Image.SCALE_SMOOTH));
-        //ImageIcon abajoImg = new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png");
-        //ImageIcon abajoImg = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Abajo.png").getImage().getScaledInstance(1366,27, Image.SCALE_SMOOTH));
+        ImageIcon logueishon = new ImageIcon("/Imagenes/Fondo.png");
 
         lblTitulo.setText("");
         lblTitulo.setVisible(true);
-        lblTitulo.setIcon(tituloImg);
+        lblTitulo.setIcon(logueishon);
 
-        ImageIcon salirBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Salir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon salirPresBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/SalirPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon ingresarBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Ingresar.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
-        ImageIcon ingresarPresBtn = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/IngresarPresionado.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalir.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalirPres.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresar.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresarPres.png").getImage().getScaledInstance(200,50, Image.SCALE_SMOOTH));
 
         btnIngresar.setText("");
-        btnIngresar.setIcon(ingresarBtn);
-        btnIngresar.setPressedIcon(ingresarPresBtn);
+        btnIngresar.setIcon(botonIngresar);
+        btnIngresar.setPressedIcon(botonIngresarPres);
         btnIngresar.setBorderPainted(false);       // Quita el borde
         btnIngresar.setContentAreaFilled(false);   // Quita el fondo
         btnIngresar.setFocusPainted(false);        // Quita el resaltado al enfocar
 
         btnSalir.setText("");
-        btnSalir.setIcon(salirBtn);
-        btnSalir.setPressedIcon(salirPresBtn);
+        btnSalir.setIcon(botonSalir);
+        btnSalir.setPressedIcon(botonSalirPres);
         btnSalir.setBorderPainted(false);       // Quita el borde
         btnSalir.setContentAreaFilled(false);   // Quita el fondo
         btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        botonMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
-        botonNoMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonNoMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
 
         btnShowContra.setText("");
         btnShowContra.setIcon(botonMostrar);

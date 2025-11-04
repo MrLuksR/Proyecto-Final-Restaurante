@@ -770,6 +770,8 @@ public class FormPrincipal extends JFrame {
     // Obtener los datos de la reserva en la base de datos
     public void setDesignReservas() {
 
+        String username = System.getenv("USERNAME");
+
         lblOrder.setForeground(new Color(44, 49, 58));
         lblOrder.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
@@ -817,8 +819,8 @@ public class FormPrincipal extends JFrame {
         tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
         tblReservas.setGridColor(new Color(68, 74, 70));
 
-        ImageIcon botonAgregar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonAgregar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonAgregarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonAgregarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonAgregar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonAgregarPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
 
         btnAgregar.setText("");
         btnAgregar.setIcon(botonAgregar);
@@ -827,8 +829,8 @@ public class FormPrincipal extends JFrame {
         btnAgregar.setContentAreaFilled(false);   // Quita el fondo
         btnAgregar.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonEliminar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonEliminar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonEliminarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonEliminarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonEliminar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonEliminar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonEliminarPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonEliminarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
 
         btnEliminar.setText("");
         btnEliminar.setIcon(botonEliminar);

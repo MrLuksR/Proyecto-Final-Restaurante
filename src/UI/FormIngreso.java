@@ -216,16 +216,16 @@ public class FormIngreso extends JFrame {
 
         String username = System.getenv("USERNAME");
 
-        ImageIcon logueishon = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/Logo.png").getImage().getScaledInstance(551,428, Image.SCALE_SMOOTH));
+        ImageIcon logueishon = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/Logo.png").getImage().getScaledInstance(551,428, Image.SCALE_SMOOTH));
 
         lblTitulo.setText("");
         lblTitulo.setVisible(true);
         lblTitulo.setIcon(logueishon);
 
-        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonSalir.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonSalirPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonIngresar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonIngresarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonSalir = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonSalir.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonSalirPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonIngresar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonIngresarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
 
         btnIngresar.setText("");
         btnIngresar.setIcon(botonIngresar);
@@ -241,8 +241,8 @@ public class FormIngreso extends JFrame {
         btnSalir.setContentAreaFilled(false);   // Quita el fondo
         btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        botonMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
-        botonNoMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonNoMostrar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
 
         btnShowContra.setText("");
         btnShowContra.setIcon(botonMostrar);
@@ -264,20 +264,8 @@ public class FormIngreso extends JFrame {
 
     }
 
-    /*
-    static void main() throws SQLException {
-        Connection conn = ConexionBD.getConnection();
-        if (conn == null) return;
-        FormIngreso ventanaForm = new FormIngreso();
-        ventanaForm.conn = conn;
-        ventanaForm.setContentPane(ventanaForm.vntIngreso);
-        ventanaForm.setBounds(300,200,600,400);
-        ventanaForm.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        ventanaForm.setVisible(true);
-    }
-     */
-
     // Hice este Main para poder abrir la base de datos sin necesidad
+    /*
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();
         if (conn == null) return;
@@ -295,10 +283,22 @@ public class FormIngreso extends JFrame {
         //ventanaForm.setUndecorated(true); // true = sin bordes, false = con bordes
         ventanaForm.setVisible(true);
     }
+     */
+
+    public static void main(String[] args) throws SQLException {
+        FormIngreso ventanaForm = new FormIngreso();
+        ventanaForm.conn = null; // No se usa base de datos
+        ventanaForm.setContentPane(ventanaForm.vntIngreso);
+        ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventanaForm.setVisible(true);
+    }
+
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
         String username = System.getenv("USERNAME");
-        vntIngreso = new PanelConFondo("/Imagenes/Background.png");
+        vntIngreso = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
     }
 }

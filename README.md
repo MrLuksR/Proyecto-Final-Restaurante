@@ -14,9 +14,10 @@ Programas utilizados en la realización del proyecto:
 
 ## Estructura
 
-El proyecto se organiza principalmente en tres packages (paquetes):
+La organización del proyecto se centra principalmente en tres packages (paquetes), para una mejor organización
+del contenido. Dichos paquetes se organizan de la siguiente manera:
 
-InterfacesEimpl
+### InterfacesEimpl
 
 <img width="289" height="96" alt="image" src="https://github.com/user-attachments/assets/4e93a9dc-e723-4296-9a88-6f0f7050997a" />
 
@@ -24,34 +25,22 @@ Dentro de este package se contienen tres clases encargadas de la conexión, el g
 
 1. Clase: ConexionBD
   - Su función es obtener la conexión directa con la base de datos creada previamente en MariaDB (restaurante).
-  - Observaciones: Maneja errores mostrando JOptionPane. Esto se observa al no tener la base de datos ya que se muestra un error si esta no existe.
 
-2. Intefaz: GeneralDAO:
-   - Esta cumple la función de definir métodos de acceso a datos para todas las entidades del modelo (**Cliente, Personal, Comida, Bebida, Postre, Mesa, Reserva**).
+2. Intefaz: GeneralDAO
+   - Una interfaz general que contiene los métodos para el guardado de datos dentro de la base.
 
 3. Clase: FinalDAO:
-   - La función de esta clase es la implementación concreta de los métodos de la interfaz GeneralDAO. 
+   - Una clase que implementa los métodos de GeneralDAO, a fin de concentrar el guardado de datos en una sola clase.
 
 ## Modelo
 
-<img width="300" height="191" alt="image" src="https://github.com/user-attachments/assets/b670b343-d2b6-4ad5-9e96-98d7c4b23514" />
+<img width="300" height="422" alt="image" src="https://github.com/user-attachments/assets/ea628108-8094-4890-b589-76c9474a7567" />
 
-## Dentro contiene las clases:
-1. Producto (abstracta)
+### 1. Clase abstracta: Producto
+El objetivo de dicha clase es proporcionar una base común para los diferentes productos que se van a utilizar. De ella
+heredan las clases: Comida, Bebida y Postre. Todas ellas con los mismos atributos y métodos.
 
-Atributos: nombre, precio, categoria, stock, descripcion
-
-Métodos: calcImp() (abstracto), getters/setters, toString()
-
-Herencia: Comida, Bebida, Postre
-
-2. Comida, Bebida, Postre
-
-Heredan de Producto
-
-Implementan calcImp()
-
-3. Mesa
+### 2. fafasd
 
 Atributos: numMesa, estado (booleano), capacidad
 

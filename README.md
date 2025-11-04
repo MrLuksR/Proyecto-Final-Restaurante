@@ -24,7 +24,7 @@ del contenido. Dichos paquetes se organizan de la siguiente manera:
 Dentro de este package se contienen tres clases encargadas de la conexión, el guardado e implementación de la base de datos.
 
 1. Clase: ConexionBD
-  - Su función es obtener la conexión directa con la base de datos creada previamente en MariaDB (restaurante).
+   - Su función es obtener la conexión directa con la base de datos creada previamente en MariaDB (restaurante).
 
 2. Intefaz: GeneralDAO
    - Una interfaz general que contiene los métodos para el guardado de datos dentro de la base.
@@ -36,44 +36,41 @@ Dentro de este package se contienen tres clases encargadas de la conexión, el g
 
 <img width="300" height="422" alt="image" src="https://github.com/user-attachments/assets/ea628108-8094-4890-b589-76c9474a7567" />
 
-### 1. Clase abstracta: Producto
+### Clase abstracta: Producto
 El objetivo de dicha clase es proporcionar una base común para los diferentes productos que se van a utilizar. De ella
 heredan las clases: Comida, Bebida y Postre. Todas ellas con los mismos atributos y métodos.
 
-### 2. fafasd
+### Clases normales (.java)
+Como clases normales se encuentran Mesa, Factura, Pedido, Personal y Cliente. Su finalidad es tener una mejor estructura
+a la hora de modificar algún atributo dentro de la base o simplemente ingresar nuevos datos.
 
-Atributos: numMesa, estado (booleano), capacidad
-
-Métodos: getters/setters, toString()
-
-4. Cliente
-
-Atributos: nombre, apellido, telefono
-
-Métodos: getters/setters, agregarTelefono, toString()
-
-5. Personal
-
-Atributos: cedula, nombre, apellido, rol, usuario, password
-
-Métodos: getters/setters, toString()
-
-6. Reserva
-
-Atributos: ciCliente, apellido, fecha, hora, mesa, personas
-
-Métodos: getters
-
-7. Excepciones personalizadas
-
-CantidadNegativaException (RuntimeException)
-
-StockInsuficienteException (RuntimeException)
+### Excepciones
+Dentro del modelo también se encuentran dos diferentes excepciones personalizadas que se utilizan para controlar
+funcionamientos dentro del proyecto: CantidadNegativaException, sirve para controlar y verificar que el usuario
+no ingrese valores negativos, ya sea para precios, cantidad o propina; StockInsuficienteException, se encarga
+de controlar que las cantidades de productos que se pidan no sobrepasen los valores que hay en stock, como así
+también se encarga de dar aviso si el stock de agún producto está por debajo de 5.
 
 ## UI
-Este apartado contiene los .form con el diseño del proyecto, además de sus respectivos .java asociados a los form
 
-<img width="301" height="174" alt="image" src="https://github.com/user-attachments/assets/6699f38d-2e1f-428a-b265-a772e336d66a" />
+<img width="329" height="154" alt="image" src="https://github.com/user-attachments/assets/67d1b722-ee73-4815-9f55-64149ac5aa87" />
+
+Package encargado de contener las distintas ventanas del programa y se compone de la siguiente manera:
+
+### FormIngreso
+Ventana principal a ejecutar, tiene como objetivo controlar que el usuario ingrese al sistema de manera segura.
+Evita ingresos de personas al azar solicitando un nombre de usuario y contraseña contenidos en la base de datos
+del restaurante.
+
+### FormPrincipal
+Es el main o ventana principal en dónde todo el programa se ejecuta. Contiene diferentes pestañas que sirven para
+organizar mejor el contenido de cada sector del restaurante siendo estas la administración de reservas, mesas,
+pedidos, carta de productos e historial de ventas.
+
+### DialogConfirmFactura
+Una ventana encargada de confirmar la creación de una factura virtual que muestra al detalle todo lo consumido
+por una mesa en hora de servicio. Dentro se puede ingresar el nombre del cliente y la propina brindada por el
+mismo.
 
 ## Sección a ejecutar
 

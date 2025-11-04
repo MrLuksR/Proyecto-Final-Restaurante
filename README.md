@@ -1,4 +1,5 @@
 # Proyecto Final - Restaurante con SQL
+<img width="322" height="139" alt="Logo1" src="https://github.com/user-attachments/assets/f3558ac2-450b-451b-a345-dea8c8c829d0" />
 
 ## Descripción general
 

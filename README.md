@@ -2,26 +2,27 @@
 
 ## Descripción general
 
-Este proyecto es un sistema de gestión para un restaurante, desarrollado en Java utilizando el IDE IntelliJ IDEA.
-El sistema permite controlar las mesas, pedidos, productos, clientes y personal desde una interfaz visual, centralizando la administración del restaurante en una sola aplicación.
+Este proyecto es un sistema de gestión para restaurantes, desarrollado en Java utilizando el IDE IntelliJ IDEA.
+Dicho sistema permite tomar el control sobre las mesas, pedidos, productos y personal desde una interfaz 
+visual que enfatiza en la comodidad del usuario, centralizando la administración del restaurante en una sola aplicación.
 
-Los programas utilizados para la elaboración de este proyecto fueron:
+Programas utilizados en la realización del proyecto:
 - java 21.0.8 2025-07-15 LTS
 - MySQL / MariaDB
 - Intellij IDEA
 
-## Estructura del proyecto
+## Estructura
 
-El proyecto está organizado en tres paquetes:
+El proyecto se organiza principalmente en tres packages (paquetes):
 
 InterfacesEimpl
 
 <img width="289" height="96" alt="image" src="https://github.com/user-attachments/assets/4e93a9dc-e723-4296-9a88-6f0f7050997a" />
 
-Este paquete contiene tres clases, las cuales son las encargadas de realizar la conexión con la base de datos
+Dentro de este package se contienen tres clases encargadas de la conexión, el guardado e implementación de la base de datos.
 
-1. Clase: ConexionBD:
-  - La función de esta clase, es la gestión de la conexión con la base de datos MySQL (restaurante).
+1. Clase: ConexionBD
+  - Su función es obtener la conexión directa con la base de datos creada previamente en MariaDB (restaurante).
   - Observaciones: Maneja errores mostrando JOptionPane. Esto se observa al no tener la base de datos ya que se muestra un error si esta no existe.
 
 2. Intefaz: GeneralDAO:

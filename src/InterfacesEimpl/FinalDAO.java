@@ -40,10 +40,30 @@ public final class FinalDAO implements GeneralDAO{
 
     @Override
     public void guardarBebida(Bebida beb) throws SQLException {
+        String sqlAgreg = "INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement pst = conn.prepareStatement(sqlAgreg);
+        pst.setString(1, beb.getNombre());
+        pst.setDouble(2, beb.getPrecio());
+        pst.setString(3, beb.getCategoria());
+        pst.setInt(4, beb.getStock());
+        pst.setString(5, beb.getDescripcion());
+        pst.executeUpdate();
+        pst.close();
     }
 
     @Override
     public void guardarPostre(Postre pos) throws SQLException {
+        String sqlAgreg = "INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement pst = conn.prepareStatement(sqlAgreg);
+        pst.setString(1, pos.getNombre());
+        pst.setDouble(2, pos.getPrecio());
+        pst.setString(3, pos.getCategoria());
+        pst.setInt(4, pos.getStock());
+        pst.setString(5, pos.getDescripcion());
+        pst.executeUpdate();
+        pst.close();
     }
 
     @Override
@@ -99,4 +119,22 @@ public final class FinalDAO implements GeneralDAO{
         }
         pst.close();
     }
+
+    @Override
+    public void guardarFactura(Factura fact) throws SQLException {
+        String sqlFac = "INSERT INTO facturas (nombre, cajero, fecha, hora, subTotal, impuesto, propina, metodoPago) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement pst = conn.prepareStatement(sqlFac);
+            pst.setString(1, fact.getNombre());
+            pst.setString(2, fact.getPersonal());
+            pst.setString(3, fact.getFecha().toString());
+            pst.setString(4, fact.getTiempo().toString());
+            pst.setDouble(5, fact.getSubTotal());
+            pst.setDouble(6, fact.getImpuesto());
+            pst.setDouble(7, fact.getPropina());
+            pst.setString(8, fact.getMetPago());
+            pst.execute();
+            pst.close();
+    }
+
 }

@@ -1,7 +1,9 @@
 package UI;
 
+import InterfacesEimpl.FinalDAO;
 import Modelo.CantidadNegativaException;
 import Modelo.CrearFactura;
+import Modelo.Factura;
 import Modelo.Pedido;
 
 import javax.swing.*;
@@ -23,6 +25,8 @@ public class DialogConfirmFactura extends JDialog {
     private JLabel lblNombre;
     private JLabel lblPropina;
     private JSpinner spnPropina;
+    private JLabel lblMetPago;
+    private JComboBox cmbMetPago;
     private int numMesa;
     protected String personal;
     private String[] columnas;
@@ -39,6 +43,10 @@ public class DialogConfirmFactura extends JDialog {
         this.table = table;
         this.pedidos = pedidos;
         this.model = model;
+
+        // ComboBox (De métod0 de pago)
+        String[] metodos = {"Efectivo", "Tarjeta", "Transferencia"};
+        cmbMetPago.setModel(new DefaultComboBoxModel(metodos));
 
         setContentPane(contentPane);
         setModal(true);
@@ -86,13 +94,26 @@ public class DialogConfirmFactura extends JDialog {
         });
     }
 
-    private void onOK() {
+    private void onOK(){
         if (!txtNombre.getText().isEmpty()) {
-            int propina = (int) spnPropina.getValue();
+            double propina = Double.parseDouble(spnPropina.getValue().toString());
+            String metPago = String.valueOf(cmbMetPago.getSelectedItem());
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
-            CrearFactura factura = new CrearFactura("C:\\Users\\range\\OneDrive\\Desktop\\Factura0" + pedidos[0].getId() + ".pdf");
-            factura.crear(txtNombre.getText(), personal, fecha, hora, pedidos, propina);
+            // Crear factura y creador
+            Factura factura = new Factura(txtNombre.getText(), personal, fecha, hora, pedidos, propina, metPago);
+            CrearFactura cf1 = new CrearFactura("C:\\Users\\range\\OneDrive\\Desktop\\Factura" + pedidos[0].getId() + ".pdf");
+
+            // FinalDAO para guardar la factura
+            FinalDAO f1 = new FinalDAO(conn);
+
+            // Creamos la factura y la guardamos
+            cf1.crear(factura);
+            try {
+                f1.guardarFactura(factura);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error:\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
             String sqlElimProds = "DELETE FROM pedidos WHERE mesa = ?";
 
             try{
@@ -104,10 +125,11 @@ public class DialogConfirmFactura extends JDialog {
             }catch (SQLException ex){
                 JOptionPane.showMessageDialog(null, "Error:\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
             }
+            dispose();
+            JOptionPane.showMessageDialog(null,"Pedido cerrado. Factura creada en:\n" + cf1.getPath(), "Factura", JOptionPane.INFORMATION_MESSAGE);
         }
         else
             JOptionPane.showMessageDialog(null, "El campo no puede estar vacío", "Información", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
     }
 
     String getPersonal() {

@@ -31,7 +31,7 @@ public class CrearFactura {
     // Setter
     public void setPath(String path) {this.path = path;}
 
-    public void crear(String nombre, String personal, LocalDate fecha, LocalTime tiempo, Pedido[] pedido, int propina){
+    public void crear(Factura factura){
         try {
             // Crear documento
             Document documento = new Document();
@@ -46,7 +46,7 @@ public class CrearFactura {
             // Encabezado
             //Paragraph titulo = new Paragraph("***** FACTURA ELECTRÓNICA *****", fontTitulo);
             Image titulo = Image.getInstance("C:\\Users\\range\\IdeaProjects\\Imagenes\\Logo.png");
-            titulo.scalePercent(50);
+            titulo.scalePercent(30);
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
 
@@ -59,11 +59,12 @@ public class CrearFactura {
             documento.add(new Paragraph("----------------------------------------", fontNormal));
 
             // Datos del cliente
-            documento.add(new Paragraph("Cliente: " + nombre, fontNormal));
-            documento.add(new Paragraph("Cajero/a: " + personal, fontNormal));
-            documento.add(new Paragraph("Fecha: " + fecha, fontNormal));
-            documento.add(new Paragraph("Hora: " + tiempo, fontNormal));
-            documento.add(new Paragraph("Factura N°: 0001-00002" + pedido[0].getId(), fontNormal));
+            documento.add(new Paragraph("Cliente: " + factura.getNombre(), fontNormal));
+            documento.add(new Paragraph("Cajero/a: " + factura.getPersonal(), fontNormal));
+            documento.add(new Paragraph("Fecha: " + factura.getFecha(), fontNormal));
+            documento.add(new Paragraph("Hora: " + factura.getTiempo(), fontNormal));
+            documento.add(new Paragraph("Factura N°: 0001-00002" + factura.getPedido()[0].getId(), fontNormal));
+            documento.add(new Paragraph("Método de pago: " + factura.getMetPago(), fontNormal));
             documento.add(new Paragraph("----------------------------------------", fontNormal));
 
             // Tabla de productos
@@ -79,13 +80,13 @@ public class CrearFactura {
             tabla.addCell(celda("TOTAL", fontBold, Element.ALIGN_RIGHT));
 
             // Productos
-            for (int i = 0; i < pedido.length; i++){
-                String cant = String.valueOf(pedido[i].getCantidad());
+            for (int i = 0; i < factura.getPedido().length; i++){
+                String cant = String.valueOf(factura.getPedido()[i].getCantidad());
                 tabla.addCell(celda(cant, fontNormal, Element.ALIGN_LEFT));
-                tabla.addCell(celda(pedido[i].getProducto(), fontNormal, Element.ALIGN_LEFT));
-                String precio = String.valueOf(pedido[i].getTotales()/pedido[i].getCantidad());
+                tabla.addCell(celda(factura.getPedido()[i].getProducto(), fontNormal, Element.ALIGN_LEFT));
+                String precio = String.valueOf(factura.getPedido()[i].getTotales()/factura.getPedido()[i].getCantidad());
                 tabla.addCell(celda(precio, fontNormal, Element.ALIGN_RIGHT));
-                String total = String.valueOf(pedido[i].getTotales());
+                String total = String.valueOf(factura.getPedido()[i].getTotales());
                 tabla.addCell(celda(total, fontNormal, Element.ALIGN_RIGHT));}
 
             documento.add(tabla);
@@ -94,10 +95,10 @@ public class CrearFactura {
 
             // Total
             double finalTotal = 0;
-            for (int i = 0; i < pedido.length; i++){
-                finalTotal += pedido[i].getTotales();
+            for (int i = 0; i < factura.getPedido().length; i++){
+                finalTotal += factura.getPedido()[i].getTotales();
             }
-            Paragraph prop = new Paragraph("Propina: $" + propina, fontNormal);
+            Paragraph prop = new Paragraph("Propina: $" + factura.getPropina(), fontNormal);
             prop.setAlignment(Element.ALIGN_RIGHT);
             documento.add(prop);
 
@@ -106,7 +107,7 @@ public class CrearFactura {
             imp.setAlignment(Element.ALIGN_RIGHT);
             documento.add(imp);
 
-            Paragraph total = new Paragraph("TOTAL: $" + (finalTotal + impuesto + propina), fontBold);
+            Paragraph total = new Paragraph("TOTAL: $" + (finalTotal + impuesto + factura.getPropina()), fontBold);
             total.setAlignment(Element.ALIGN_RIGHT);
             documento.add(total);
 
@@ -130,7 +131,6 @@ public class CrearFactura {
             throw new RuntimeException(e);
         }
     }
-
     // Método auxiliar para crear celdas de tabla con alineación
     private static PdfPCell celda(String texto, Font font, int alineacion) {
         PdfPCell celda = new PdfPCell(new Phrase(texto, font));

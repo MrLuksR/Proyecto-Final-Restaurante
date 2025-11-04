@@ -12,4 +12,5 @@ public interface GeneralDAO {
     void guardarPostre(Postre pos) throws SQLException;
     long guardarMesa(Mesa mesa) throws SQLException;
     void guardarReserva(Reserva reserva) throws SQLException;
+    void guardarFactura(Factura fact) throws SQLException;
 }

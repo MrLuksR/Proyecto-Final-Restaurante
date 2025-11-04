@@ -286,8 +286,9 @@ public class FormIngreso extends JFrame {
      */
 
     public static void main(String[] args) throws SQLException {
+        Connection conn = ConexionBD.getConnection();
         FormIngreso ventanaForm = new FormIngreso();
-        ventanaForm.conn = null; // No se usa base de datos
+        ventanaForm.conn = conn;
         ventanaForm.setContentPane(ventanaForm.vntIngreso);
         ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

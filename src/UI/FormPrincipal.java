@@ -108,6 +108,16 @@ public class FormPrincipal extends JFrame {
     private JLabel lblCantProdMesas;
     private JScrollPane scrTablaProductos;
     private JLabel lblProdSelecInfo;
+    private JLabel lblHistorial;
+    private JLabel lblSubTitHistorial;
+    private JTable tblRegistro;
+    private JScrollPane scrTblRegistro;
+    private JLabel lblTitTotalSinImpRegistro;
+    private JLabel lblTotalSinImpRegistro;
+    private JLabel lblTitTotalRegistro;
+    private JLabel lblTotalRegistro;
+    private JComboBox cmbOrdenarRegistro;
+    private JLabel lblTitOrder;
     private DefaultComboBoxModel mdlComboBoxPersonalMesas; // Modelo de comboBox para seleccionar personal
     private DefaultTableModel mdlTblPedidosMesas; // Modelo de tabla para pedidos
     private String[] columnasMesasPedidos = {"ID", "Mesa", "Estado", "Producto", "Cantidad", "Totales"}; // Columnas para la tabla de pedidos
@@ -678,21 +688,23 @@ public class FormPrincipal extends JFrame {
                 int opc = JOptionPane.showOptionDialog(null, "¿Agregar " + txtProdNombre.getText() + " a la carta?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
                 if (opc == JOptionPane.YES_OPTION) {
-                    Producto p1;
                     try {
                         FinalDAO f1 = new FinalDAO(conn);
                         switch (cmbProdCateg.getSelectedIndex()) {
                             case 0:
-                                p1 = new Comida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
-                                f1.guardarComida((Comida) p1); break;
+                                Comida c1 = new Comida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarComida(c1); break;
                             case 1:
-                                p1 = new Bebida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
-                                f1.guardarBebida((Bebida) p1); break;
+                                Bebida b1 = new Bebida(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarBebida(b1); break;
                             case 2:
-                                p1 = new Postre(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
-                                f1.guardarPostre((Postre) p1); break;
+                                Postre p1 = new Postre(txtProdNombre.getText(), Double.parseDouble(txtProdPrecio.getText().toString()), 0, txtProdDescr.getText());
+                                f1.guardarPostre(p1); break;
                         }
                         mdlTblProdCarta.setDataVector(datosProductosCarta(), prodColumns);
+                        txtProdNombre.setText("");
+                        txtProdPrecio.setText("");
+                        txtProdDescr.setText("");
                         JOptionPane.showMessageDialog(null, txtProdNombre.getText() + " agregado a la carta");
                     }catch(SQLException ex){
                         JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
@@ -763,6 +775,44 @@ public class FormPrincipal extends JFrame {
                 }catch (SQLException ex){
                     JOptionPane.showMessageDialog(null, "Error al eliminar este producto\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        // HISTORIAL
+        //===============================================================================
+        // Tabla de registro
+        String[] registroColumns = {"Id", "Fecha", "Hora", "Sub Total", "Impuesto", "M. de pago"};
+        DefaultTableModel mdlTblRegistro = new DefaultTableModel(datosRegistro(0), registroColumns);
+        tblRegistro.setModel(mdlTblRegistro);
+        tblRegistro.setDefaultEditor(Object.class, null); // No permite que la tabla sea editable
+        tblRegistro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solamente un elemento
+        tblRegistro.getTableHeader().setReorderingAllowed(false);
+
+        // Labels de total
+        setLabelsTotales();
+
+        // ComboBox de Ordenar
+        String[] ordenesRegis = {"Id", "Fecha", "Hora", "Sub total", "Impuesto", "M. de pago"};
+        cmbOrdenarRegistro.setModel(new DefaultComboBoxModel(ordenesRegis));
+
+        // Listener para Registro
+        tbdSecciones.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (tbdSecciones.getSelectedIndex() == 3){
+                    int order = cmbOrdenarRegistro.getSelectedIndex();
+                    mdlTblRegistro.setDataVector(datosRegistro(order), registroColumns);
+                    setLabelsTotales();
+                }
+            }
+        });
+
+        // Listener de ComboBox ordenar
+        cmbOrdenarRegistro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int order = cmbOrdenarRegistro.getSelectedIndex();
+                mdlTblRegistro.setDataVector(datosRegistro(order), registroColumns);
             }
         });
     }
@@ -1523,6 +1573,93 @@ public class FormPrincipal extends JFrame {
         else
             btnAgregProdCarta.setEnabled(false);
     } // Activa el botón agregar producto a la carta
+    //===============================================================
+
+    // HISTORIAL
+    //===============================================================
+    public String[][] datosRegistro(int order){
+        try {
+            String sqlTotalRegistros = "SELECT COUNT(id_factura) AS total FROM facturas";// Cuenta todas los productos que hay
+            PreparedStatement pst = conn.prepareStatement(sqlTotalRegistros);
+            ResultSet totalRes = pst.executeQuery(); // Número total de pedidos
+            int total = 0;
+            if (totalRes.next()) {
+                total = totalRes.getInt("total");
+            }
+
+            String[][] matrizRegistrosFinal = new String[total][6];
+
+            // Ordenar en base al ComboBox
+            String ordenar = "";
+            switch(order) {
+                case 0:
+                    ordenar = "id_factura";
+                    break;
+                case 1:
+                    ordenar = "fecha";
+                    break;
+                case 2:
+                    ordenar = "hora";
+                    break;
+                case 3:
+                    ordenar = "subTotal";
+                    break;
+                case 4:
+                    ordenar = "impuesto";
+                    break;
+                case 5:
+                    ordenar = "impuesto";
+                    break;
+                case 6:
+                    ordenar = "metodoPago";
+                    break;
+            }
+
+            // Creamos lo necesario para obtener la fila con datos de productos
+            String sqlProductos = "SELECT id_factura, fecha, hora, subTotal, impuesto, metodoPago FROM facturas ORDER BY " + ordenar; // Para obtener una fila de productos
+
+            /* Creamos una variable del tipo PrepareStatement y le pasamos la consulta SQl
+             * Luego creamos un ResultSet para comprobar el resultado obtenido de esa consulta*/
+
+            int i = 0;
+            pst = conn.prepareStatement(sqlProductos, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rsRegistros = pst.executeQuery();
+            while (rsRegistros.next()) {
+                matrizRegistrosFinal[i][0] = String.valueOf(rsRegistros.getInt("id_factura"));
+                matrizRegistrosFinal[i][1] = String.valueOf(rsRegistros.getDate("fecha"));
+                matrizRegistrosFinal[i][2] = String.valueOf(rsRegistros.getTime("hora"));
+                matrizRegistrosFinal[i][3] = String.valueOf(rsRegistros.getDouble("subTotal"));
+                matrizRegistrosFinal[i][4] = String.valueOf(rsRegistros.getDouble("impuesto"));
+                matrizRegistrosFinal[i][5] = rsRegistros.getString("metodoPago");
+                i++;
+            }
+
+            // Cerramos el PreparedStatement y ResultSet
+            rsRegistros.close();
+            totalRes.close();
+            pst.close();
+
+            return matrizRegistrosFinal;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return new String[0][0];
+        }
+    } // Obtiene los datos de la tabla Facturas
+    public void setLabelsTotales(){
+        // Labels de total
+        double totalSimp = 0;
+        for (int i = 0; i < tblRegistro.getRowCount(); i++) {
+            totalSimp += Double.parseDouble(tblRegistro.getValueAt(i, 3).toString());
+        }
+        lblTotalSinImpRegistro.setText("$" + totalSimp);
+
+        double totalImp = 0;
+        for (int i = 0; i < tblRegistro.getRowCount(); i++) {
+            totalImp += Double.parseDouble(tblRegistro.getValueAt(i, 4).toString());
+        }
+        totalImp += totalSimp;
+        lblTotalRegistro.setText("$" + totalImp);
+    }
     //===============================================================
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();

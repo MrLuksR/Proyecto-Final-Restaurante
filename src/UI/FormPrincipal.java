@@ -805,6 +805,39 @@ public class FormPrincipal extends JFrame {
 
         lblInfoHora.setForeground(new Color(44, 49, 58));
         lblInfoHora.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        cmbEstadosMesas.setBackground(Color.DARK_GRAY);
+        cmbEstadosMesas.setForeground(Color.WHITE);
+
+        scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
+
+        tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        tblReservas.setBackground(Color.DARK_GRAY);
+        tblReservas.setForeground(Color.WHITE);
+        tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
+        tblReservas.setGridColor(new Color(68, 74, 70));
+
+        ImageIcon botonAgregar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonAgregar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonAgregarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonAgregarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+
+        btnAgregar.setText("");
+        btnAgregar.setIcon(botonAgregar);
+        btnAgregar.setPressedIcon(botonAgregarPres);
+        btnAgregar.setBorderPainted(false);       // Quita el borde
+        btnAgregar.setContentAreaFilled(false);   // Quita el fondo
+        btnAgregar.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonEliminar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonEliminar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonEliminarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonEliminarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+
+        btnEliminar.setText("");
+        btnEliminar.setIcon(botonEliminar);
+        btnEliminar.setPressedIcon(botonEliminarPres);
+        btnEliminar.setBorderPainted(false);       // Quita el borde
+        btnEliminar.setContentAreaFilled(false);   // Quita el fondo
+        btnEliminar.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+
     }
 
 

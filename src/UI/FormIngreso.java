@@ -216,16 +216,16 @@ public class FormIngreso extends JFrame {
 
         String username = System.getenv("USERNAME");
 
-        ImageIcon logueishon = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/Logo.png").getImage().getScaledInstance(551,428, Image.SCALE_SMOOTH));
+        ImageIcon logueishon = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/Logo.png").getImage().getScaledInstance(551,428, Image.SCALE_SMOOTH));
 
         lblTitulo.setText("");
         lblTitulo.setVisible(true);
         lblTitulo.setIcon(logueishon);
 
-        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalir.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonSalirPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
-        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/botonIngresarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonSalir = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonSalir.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonSalirPres = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonSalirPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonIngresar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
+        ImageIcon botonIngresarPres = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/botonIngresarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
 
         btnIngresar.setText("");
         btnIngresar.setIcon(botonIngresar);
@@ -241,8 +241,8 @@ public class FormIngreso extends JFrame {
         btnSalir.setContentAreaFilled(false);   // Quita el fondo
         btnSalir.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        botonMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
-        botonNoMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormPrincipal/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/BotonMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
+        botonNoMostrar = new ImageIcon(new ImageIcon("/Imagenes/FormIngreso/BotonNoMostrar.png").getImage().getScaledInstance(38,30, Image.SCALE_FAST));
 
         btnShowContra.setText("");
         btnShowContra.setIcon(botonMostrar);

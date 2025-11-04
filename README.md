@@ -17,7 +17,7 @@ Programas utilizados en la realización del proyecto:
 La organización del proyecto se centra principalmente en tres packages (paquetes), para una mejor organización
 del contenido. Dichos paquetes se organizan de la siguiente manera:
 
-### InterfacesEimpl
+## InterfacesEimpl
 
 <img width="289" height="96" alt="image" src="https://github.com/user-attachments/assets/4e93a9dc-e723-4296-9a88-6f0f7050997a" />
 
@@ -35,6 +35,8 @@ Dentro de este package se contienen tres clases encargadas de la conexión, el g
 ## Modelo
 
 <img width="300" height="422" alt="image" src="https://github.com/user-attachments/assets/ea628108-8094-4890-b589-76c9474a7567" />
+
+Diferentes clases utilizadas para la modularización del código y mejorar la legibilidad.
 
 ### Clase abstracta: Producto
 El objetivo de dicha clase es proporcionar una base común para los diferentes productos que se van a utilizar. De ella
@@ -72,8 +74,4 @@ Una ventana encargada de confirmar la creación de una factura virtual que muest
 por una mesa en hora de servicio. Dentro se puede ingresar el nombre del cliente y la propina brindada por el
 mismo.
 
-## Sección a ejecutar
-
-<img width="675" height="357" alt="image" src="https://github.com/user-attachments/assets/b257d50b-aa6a-4d61-9e33-65f66dcf274b" />
-
-Para correr el proyecto se debe ir al apartado UI, y ejecutar el main de FormIngreso, cabe destacar que se debe tener la base de datos creada con antelación.
+## Requisistos para ejecutar el proyecto

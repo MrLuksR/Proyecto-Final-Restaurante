@@ -75,3 +75,5 @@ por una mesa en hora de servicio. Dentro se puede ingresar el nombre del cliente
 mismo.
 
 ## Requisistos para ejecutar el proyecto
+Como primera instancia para poder ejecutar este proyecto es necesario tener una base de datos creada en MariaDB.
+Dicha base debe contener las siguientes tablas: facturas, mesas, pedidos, personal, productos y reservas.

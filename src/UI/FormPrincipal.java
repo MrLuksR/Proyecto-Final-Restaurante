@@ -142,7 +142,7 @@ public class FormPrincipal extends JFrame {
 
         mdl.setDataVector(datosPedidosMesas(3), columnasMesasPedidos);
 
-        setDesignReservas();
+        setDesign();
 
         // Personalizar el tamaño de las pestañas de JTabbedPane
         for (int i = 0; i < tbdSecciones.getTabCount(); i++) {
@@ -818,7 +818,8 @@ public class FormPrincipal extends JFrame {
     }
 
     // Obtener los datos de la reserva en la base de datos
-    public void setDesignReservas() {
+    public void setDesign() {
+        // VENTANA RESERVAS
 
         String username = System.getenv("USERNAME");
 
@@ -889,7 +890,37 @@ public class FormPrincipal extends JFrame {
         btnEliminar.setContentAreaFilled(false);   // Quita el fondo
         btnEliminar.setFocusPainted(false);        // Quita el resaltado al enfocar
 
+        //VENTANA MESAS
 
+        lblNumMesa.setForeground(new Color(44, 49, 58));
+        lblNumMesa.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblSubTitulo.setForeground(new Color(44, 49, 58));
+        lblSubTitulo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblEstadoMesa.setForeground(new Color(44, 49, 58));
+        lblEstadoMesa.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblMesero.setForeground(new Color(44, 49, 58));
+        lblMesero.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblEstadoInfo.setForeground(new Color(44, 49, 58));
+        lblEstadoInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblNumeroMesaInfo.setForeground(new Color(44, 49, 58));
+        lblNumeroMesaInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblPersonalInfo.setForeground(new Color(44, 49, 58));
+        lblPersonalInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTotalProdMesas.setForeground(new Color(44, 49, 58));
+        lblTotalProdMesas.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTotalPedidMesasInfo.setForeground(new Color(44, 49, 58));
+        lblTotalPedidMesasInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblCantProdMesas.setForeground(new Color(44, 49, 58));
+        lblCantProdMesas.setFont(new Font("Times New Roman", Font.BOLD, 18));
     }
 
 
@@ -1677,12 +1708,12 @@ public class FormPrincipal extends JFrame {
         ventanaForm.setVisible(true);
     }
 
-    /*
     private void createUIComponents() {
         // TODO: place custom component creation code here
         String username = System.getenv("USERNAME");
         vntReservas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
         vntMesas = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
+        vtnCarta = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
+        vtnHistorial = new PanelConFondo("C:/Users/" + username + "/IdeaProjects/Imagenes/Background.png");
     }
-     */
 }

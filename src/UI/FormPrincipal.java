@@ -433,7 +433,7 @@ public class FormPrincipal extends JFrame {
                         }
                     }
                     // Si el estado a cambiar es igual al ya seleccionado entonces mostrar el mensaje
-                }else if (estadoSelec.equals(estadoChg)){
+                }else if (opc == JOptionPane.YES_OPTION && estadoSelec.equals(estadoChg)){
                     JOptionPane.showMessageDialog(null, "La mesa ya está " + estadoChg, "Información", JOptionPane.INFORMATION_MESSAGE);
                 }else if (datosPedidosMesas(numMesa) != null){
                     JOptionPane.showMessageDialog(null, "No se ha cerrado el pedido de mesa " + lblNumeroMesaInfo.getText(), "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -468,7 +468,7 @@ public class FormPrincipal extends JFrame {
                         JOptionPane.showMessageDialog(null, "Error en base de datos:\n" + ex.getMessage());
                     }
                 // Si el mesero a cambiar es igual al ya seleccionado entonces mostrar el mensaje
-                }else if (personalSelec.equals(personalChg)) {
+                }else if (opc == JOptionPane.YES_OPTION && personalSelec.equals(personalChg)) {
                     JOptionPane.showMessageDialog(null, "El mesero " + personalChg + " ya está designado a esta mesa", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
@@ -605,7 +605,7 @@ public class FormPrincipal extends JFrame {
                     DialogConfirmFactura dialog = new DialogConfirmFactura(conn, numMesa, personal, columnasMesasPedidos, tblPedidosMesas, recuentoDePedidos(), mdlTblPedidosMesas);
                     dialog.setBounds(200, 200, 450, 300);
                     dialog.setVisible(true);
-                }else if (datosPedidosMesas(numMesa) == null)
+                }else if (opc == JOptionPane.YES_OPTION && datosPedidosMesas(numMesa) == null)
                     JOptionPane.showMessageDialog(null, "Lista de pedidos vacía", "Información", JOptionPane.INFORMATION_MESSAGE);
                 else if (!cerrarPedido())
                     JOptionPane.showMessageDialog(null, "Hay pedidos pendientes", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -1033,15 +1033,15 @@ public class FormPrincipal extends JFrame {
         ImageIcon botonCambiarEstadoPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarEstadoPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
 
         btnCambiarEstado.setText("");
-        btnCambiarEstado.setIcon(botonMesa9);
-        btnCambiarEstado.setPressedIcon(botonMesa9Pres);
+        btnCambiarEstado.setIcon(botonCambiarEstado);
+        btnCambiarEstado.setPressedIcon(botonCambiarEstadoPres);
         btnCambiarEstado.setBorderPainted(false);       // Quita el borde
         btnCambiarEstado.setContentAreaFilled(false);   // Quita el fondo
         btnCambiarEstado.setFocusPainted(false);        // Quita el resaltado al enfocar
 
         btnCambEstadoProdMesas.setText("");
-        btnCambEstadoProdMesas.setIcon(botonMesa9);
-        btnCambEstadoProdMesas.setPressedIcon(botonMesa9Pres);
+        btnCambEstadoProdMesas.setIcon(botonCambiarEstado);
+        btnCambEstadoProdMesas.setPressedIcon(botonCambiarEstadoPres);
         btnCambEstadoProdMesas.setBorderPainted(false);       // Quita el borde
         btnCambEstadoProdMesas.setContentAreaFilled(false);   // Quita el fondo
         btnCambEstadoProdMesas.setFocusPainted(false);        // Quita el resaltado al enfocar
@@ -1050,8 +1050,8 @@ public class FormPrincipal extends JFrame {
         ImageIcon botonCambiarPersonalPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarPersonalPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
 
         btnCambiarPersonal.setText("");
-        btnCambiarPersonal.setIcon(botonMesa9);
-        btnCambiarPersonal.setPressedIcon(botonMesa9Pres);
+        btnCambiarPersonal.setIcon(botonCambiarPersonal);
+        btnCambiarPersonal.setPressedIcon(botonCambiarPersonalPres);
         btnCambiarPersonal.setBorderPainted(false);       // Quita el borde
         btnCambiarPersonal.setContentAreaFilled(false);   // Quita el fondo
         btnCambiarPersonal.setFocusPainted(false);        // Quita el resaltado al enfocar
@@ -1060,8 +1060,8 @@ public class FormPrincipal extends JFrame {
         ImageIcon botonCerrarPedidoPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCerrarPedidoPres.png").getImage().getScaledInstance(467,57, Image.SCALE_SMOOTH));
 
         btnCerrarPedidoMesa.setText("");
-        btnCerrarPedidoMesa.setIcon(botonMesa9);
-        btnCerrarPedidoMesa.setPressedIcon(botonMesa9Pres);
+        btnCerrarPedidoMesa.setIcon(botonCerrarPedido);
+        btnCerrarPedidoMesa.setPressedIcon(botonCerrarPedidoPres);
         btnCerrarPedidoMesa.setBorderPainted(false);       // Quita el borde
         btnCerrarPedidoMesa.setContentAreaFilled(false);   // Quita el fondo
         btnCerrarPedidoMesa.setFocusPainted(false);        // Quita el resaltado al enfocar

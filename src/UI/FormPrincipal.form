@@ -381,7 +381,7 @@
                 <properties>
                   <enabled value="true"/>
                   <font name="Times New Roman" size="36" style="1"/>
-                  <foreground color="-13908507"/>
+                  <foreground color="-15716228"/>
                   <text value="Mesas"/>
                 </properties>
               </component>

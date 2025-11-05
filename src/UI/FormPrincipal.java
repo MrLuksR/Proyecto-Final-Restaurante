@@ -152,10 +152,11 @@ public class FormPrincipal extends JFrame {
             tabLabel.setFont(new Font(tabLabel.getFont().getName(), Font.BOLD, 18));
             tabLabel.setForeground(Color.DARK_GRAY);
             tbdSecciones.setTabComponentAt(i, tabLabel);
+            tbdSecciones.setBackgroundAt(i, new Color(163, 163, 183));
         }
 
         // Cambiar fondo(verde menta)
-        getContentPane().setBackground(new Color(123, 214, 144));
+        getContentPane().setBackground(Color.LIGHT_GRAY);
 
         // Abrir maximizada (ocupa toda la pantalla pero con bordes)
         setExtendedState(JFrame.MAXIMIZED_BOTH);

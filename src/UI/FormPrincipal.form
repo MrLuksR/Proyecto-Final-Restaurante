@@ -237,7 +237,7 @@
                   <grid row="0" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="36"/>
+                  <font name="Times New Roman" size="36" style="1"/>
                   <foreground color="-1755119"/>
                   <text value="Reservas"/>
                 </properties>
@@ -263,7 +263,7 @@
                   <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="22"/>
+                  <font name="Times New Roman" size="22" style="1"/>
                   <text value="Selecciona una reserva"/>
                 </properties>
               </component>
@@ -380,7 +380,7 @@
                 </constraints>
                 <properties>
                   <enabled value="true"/>
-                  <font name="Tahoma" size="36"/>
+                  <font name="Times New Roman" size="36" style="1"/>
                   <foreground color="-13908507"/>
                   <text value="Mesas"/>
                 </properties>
@@ -390,7 +390,7 @@
                   <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="22"/>
+                  <font name="Times New Roman" size="22" style="1"/>
                   <text value="Modificar mesas"/>
                 </properties>
               </component>
@@ -657,7 +657,7 @@
                 </constraints>
                 <properties>
                   <enabled value="true"/>
-                  <font name="Tahoma" size="36"/>
+                  <font name="Times New Roman" size="36" style="1"/>
                   <foreground color="-1743841"/>
                   <text value="Carta"/>
                 </properties>
@@ -750,7 +750,7 @@
                   <grid row="1" column="3" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="22"/>
+                  <font name="Times New Roman" size="22" style="1"/>
                   <text value="Modificar o agregar productos"/>
                 </properties>
               </component>
@@ -905,7 +905,7 @@
                 </constraints>
                 <properties>
                   <enabled value="true"/>
-                  <font name="Tahoma" size="36"/>
+                  <font name="Times New Roman" size="36" style="1"/>
                   <foreground color="-1759385"/>
                   <text value="Historial"/>
                 </properties>
@@ -920,7 +920,7 @@
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="22"/>
+                  <font name="Times New Roman" size="22" style="1"/>
                   <text value="Visualizar o eliminar historial"/>
                 </properties>
               </component>

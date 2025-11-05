@@ -921,6 +921,159 @@ public class FormPrincipal extends JFrame {
 
         lblCantProdMesas.setForeground(new Color(44, 49, 58));
         lblCantProdMesas.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        ImageIcon botonMesa1 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa1Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa1Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa1Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa1.setText("");
+        btnMesa1.setIcon(botonMesa1);
+        btnMesa1.setPressedIcon(botonMesa1Pres);
+        btnMesa1.setBorderPainted(false);       // Quita el borde
+        btnMesa1.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa1.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa2 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa2Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa2Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa2Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa2.setText("");
+        btnMesa2.setIcon(botonMesa2);
+        btnMesa2.setPressedIcon(botonMesa2Pres);
+        btnMesa2.setBorderPainted(false);       // Quita el borde
+        btnMesa2.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa2.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa3 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa3Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa3Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa3Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa3.setText("");
+        btnMesa3.setIcon(botonMesa3);
+        btnMesa3.setPressedIcon(botonMesa3Pres);
+        btnMesa3.setBorderPainted(false);       // Quita el borde
+        btnMesa3.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa3.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa4 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa4Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa4Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa4Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa4.setText("");
+        btnMesa4.setIcon(botonMesa4);
+        btnMesa4.setPressedIcon(botonMesa4Pres);
+        btnMesa4.setBorderPainted(false);       // Quita el borde
+        btnMesa4.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa4.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa5 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa5Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa5Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa5Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa5.setText("");
+        btnMesa5.setIcon(botonMesa5);
+        btnMesa5.setPressedIcon(botonMesa5Pres);
+        btnMesa5.setBorderPainted(false);       // Quita el borde
+        btnMesa5.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa5.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa6 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa6Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa6Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa6Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa6.setText("");
+        btnMesa6.setIcon(botonMesa6);
+        btnMesa6.setPressedIcon(botonMesa6Pres);
+        btnMesa6.setBorderPainted(false);       // Quita el borde
+        btnMesa6.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa6.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa7 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa7Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa7Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa7Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa7.setText("");
+        btnMesa7.setIcon(botonMesa7);
+        btnMesa7.setPressedIcon(botonMesa7Pres);
+        btnMesa7.setBorderPainted(false);       // Quita el borde
+        btnMesa7.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa7.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa8 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa8Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa8Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa8Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa8.setText("");
+        btnMesa8.setIcon(botonMesa8);
+        btnMesa8.setPressedIcon(botonMesa8Pres);
+        btnMesa8.setBorderPainted(false);       // Quita el borde
+        btnMesa8.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa8.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonMesa9 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa9Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa9Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa9Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+
+        btnMesa9.setText("");
+        btnMesa9.setIcon(botonMesa9);
+        btnMesa9.setPressedIcon(botonMesa9Pres);
+        btnMesa9.setBorderPainted(false);       // Quita el borde
+        btnMesa9.setContentAreaFilled(false);   // Quita el fondo
+        btnMesa9.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        btnElimProdMesas.setText("");
+        btnElimProdMesas.setIcon(botonEliminar);
+        btnElimProdMesas.setPressedIcon(botonEliminarPres);
+        btnElimProdMesas.setBorderPainted(false);       // Quita el borde
+        btnElimProdMesas.setContentAreaFilled(false);   // Quita el fondo
+        btnElimProdMesas.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonAgregarProducto = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregarProducto.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+        ImageIcon botonAgregarProductoPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregarProductoPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+
+        btnAgregarProdMesa.setText("");
+        btnAgregarProdMesa.setIcon(botonAgregarProducto);
+        btnAgregarProdMesa.setPressedIcon(botonAgregarProductoPres);
+        btnAgregarProdMesa.setBorderPainted(false);       // Quita el borde
+        btnAgregarProdMesa.setContentAreaFilled(false);   // Quita el fondo
+        btnAgregarProdMesa.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonCambiarEstado = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarEstado.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+        ImageIcon botonCambiarEstadoPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarEstadoPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+
+        btnCambiarEstado.setText("");
+        btnCambiarEstado.setIcon(botonMesa9);
+        btnCambiarEstado.setPressedIcon(botonMesa9Pres);
+        btnCambiarEstado.setBorderPainted(false);       // Quita el borde
+        btnCambiarEstado.setContentAreaFilled(false);   // Quita el fondo
+        btnCambiarEstado.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        btnCambEstadoProdMesas.setText("");
+        btnCambEstadoProdMesas.setIcon(botonMesa9);
+        btnCambEstadoProdMesas.setPressedIcon(botonMesa9Pres);
+        btnCambEstadoProdMesas.setBorderPainted(false);       // Quita el borde
+        btnCambEstadoProdMesas.setContentAreaFilled(false);   // Quita el fondo
+        btnCambEstadoProdMesas.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonCambiarPersonal = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarPersonal.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+        ImageIcon botonCambiarPersonalPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCambiarPersonalPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+
+        btnCambiarPersonal.setText("");
+        btnCambiarPersonal.setIcon(botonMesa9);
+        btnCambiarPersonal.setPressedIcon(botonMesa9Pres);
+        btnCambiarPersonal.setBorderPainted(false);       // Quita el borde
+        btnCambiarPersonal.setContentAreaFilled(false);   // Quita el fondo
+        btnCambiarPersonal.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonCerrarPedido = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCerrarPedido.png").getImage().getScaledInstance(467,57, Image.SCALE_SMOOTH));
+        ImageIcon botonCerrarPedidoPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonCerrarPedidoPres.png").getImage().getScaledInstance(467,57, Image.SCALE_SMOOTH));
+
+        btnCerrarPedidoMesa.setText("");
+        btnCerrarPedidoMesa.setIcon(botonMesa9);
+        btnCerrarPedidoMesa.setPressedIcon(botonMesa9Pres);
+        btnCerrarPedidoMesa.setBorderPainted(false);       // Quita el borde
+        btnCerrarPedidoMesa.setContentAreaFilled(false);   // Quita el fondo
+        btnCerrarPedidoMesa.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        scrProductosMesas.getViewport().setBackground(Color.DARK_GRAY);
+
+        tblPedidosMesas.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        tblPedidosMesas.setBackground(Color.DARK_GRAY);
+        tblPedidosMesas.setForeground(Color.WHITE);
+        tblPedidosMesas.setFont(new Font("Times New Roman", Font.BOLD, 10));
+        tblPedidosMesas.setGridColor(new Color(68, 74, 70));
+
     }
 
 

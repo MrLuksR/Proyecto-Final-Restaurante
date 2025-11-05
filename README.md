@@ -47,7 +47,7 @@ Como clases normales se encuentran Mesa, Factura, Pedido, Personal y Cliente. Su
 a la hora de modificar algún atributo dentro de la base o simplemente ingresar nuevos datos.
 
 ### Excepciones
-Dentro del modelo también se encuentran dos diferentes excepciones personalizadas que se utilizan para controlar
+Dentro del modelo, también se encuentran dos diferentes excepciones personalizadas, las cuales se utilizan para controlar
 funcionamientos dentro del proyecto: CantidadNegativaException, sirve para controlar y verificar que el usuario
 no ingrese valores negativos, ya sea para precios, cantidad o propina; StockInsuficienteException, se encarga
 de controlar que las cantidades de productos que se pidan no sobrepasen los valores que hay en stock, como así

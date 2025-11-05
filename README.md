@@ -75,5 +75,5 @@ por una mesa en hora de servicio. Dentro se puede ingresar el nombre del cliente
 mismo.
 
 ## Requisistos para ejecutar el proyecto
-Como primera instancia para poder ejecutar este proyecto es necesario tener una base de datos creada en MariaDB.
-Dicha base debe contener las siguientes tablas: facturas, mesas, pedidos, personal, productos y reservas.
+Para poder ejecutar este proyecto es necesario tener una base de datos llamada restaurante en MariaDB, el programa creará las tablas necesarias dentro de la base de datos de manera automática.
+Se debe ejecutar la ventana FormIngreso en primera instancia, se mostrará un mensaje con los datos necesarios para ingresar. 

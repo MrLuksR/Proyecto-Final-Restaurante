@@ -264,27 +264,6 @@ public class FormIngreso extends JFrame {
 
     }
 
-    // Hice este Main para poder abrir la base de datos sin necesidad
-    /*
-    public static void main(String[] args) throws SQLException {
-        Connection conn = ConexionBD.getConnection();
-        if (conn == null) return;
-        FormIngreso ventanaForm = new FormIngreso();
-        ventanaForm.conn = conn;
-        ventanaForm.setContentPane(ventanaForm.vntIngreso);
-        ventanaForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        // Cambiar fondo(verde menta)
-        ventanaForm.getContentPane().setBackground(new Color(189, 236, 182));
-
-        // Abrir maximizada (ocupa toda la pantalla pero con bordes)
-        ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //ventanaForm.setSize(1366, 768);
-        //ventanaForm.setUndecorated(true); // true = sin bordes, false = con bordes
-        ventanaForm.setVisible(true);
-    }
-     */
-
     public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.getConnection();
         if (conn == null) return;
@@ -395,7 +374,17 @@ public class FormIngreso extends JFrame {
                     pst.close();
                 }
             }
-            JOptionPane.showMessageDialog(null, "Tablas inexistentes creadas correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            String sqlAdmin = "INSERT INTO personal(ci_personal, nombre, apellido, user_name, contra) VALUES (5555, 'Admin', 'Admin', ?, ?)";
+            String user = "admin";
+            String contra = "1234";
+            PreparedStatement pst = conn.prepareStatement(sqlAdmin);
+            pst.setString(1, user);
+            pst.setString(2, contra);
+            pst.execute();
+            pst.close();
+
+            JOptionPane.showMessageDialog(null, "En caso de no haber creado las tablas en la base de datos,\nse crearán automáticamente. Acceso al sistema con:\n" +
+                    "Usuario: "+ user + "\nContraseña: " + contra, "Información", JOptionPane.INFORMATION_MESSAGE);
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null,"Error:\n" + e,"Error",JOptionPane.ERROR_MESSAGE);
         }

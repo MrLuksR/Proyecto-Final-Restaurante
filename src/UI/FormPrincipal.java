@@ -922,7 +922,7 @@ public class FormPrincipal extends JFrame {
         lblCantProdMesas.setForeground(new Color(44, 49, 58));
         lblCantProdMesas.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        ImageIcon botonMesa1 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa1Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa1 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa1.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa1Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa1Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa1.setText("");
@@ -932,7 +932,7 @@ public class FormPrincipal extends JFrame {
         btnMesa1.setContentAreaFilled(false);   // Quita el fondo
         btnMesa1.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa2 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa2Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa2 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa2.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa2Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa2Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa2.setText("");
@@ -942,7 +942,7 @@ public class FormPrincipal extends JFrame {
         btnMesa2.setContentAreaFilled(false);   // Quita el fondo
         btnMesa2.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa3 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa3Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa3 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa3.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa3Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa3Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa3.setText("");
@@ -952,7 +952,7 @@ public class FormPrincipal extends JFrame {
         btnMesa3.setContentAreaFilled(false);   // Quita el fondo
         btnMesa3.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa4 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa4Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa4 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa4.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa4Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa4Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa4.setText("");
@@ -962,7 +962,7 @@ public class FormPrincipal extends JFrame {
         btnMesa4.setContentAreaFilled(false);   // Quita el fondo
         btnMesa4.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa5 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa5Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa5 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa5.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa5Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa5Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa5.setText("");
@@ -972,7 +972,7 @@ public class FormPrincipal extends JFrame {
         btnMesa5.setContentAreaFilled(false);   // Quita el fondo
         btnMesa5.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa6 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa6Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa6 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa6.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa6Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa6Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa6.setText("");
@@ -982,7 +982,7 @@ public class FormPrincipal extends JFrame {
         btnMesa6.setContentAreaFilled(false);   // Quita el fondo
         btnMesa6.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa7 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa7Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa7 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa7.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa7Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa7Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa7.setText("");
@@ -992,7 +992,7 @@ public class FormPrincipal extends JFrame {
         btnMesa7.setContentAreaFilled(false);   // Quita el fondo
         btnMesa7.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa8 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa8Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa8 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa8.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa8Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa8Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa8.setText("");
@@ -1002,7 +1002,7 @@ public class FormPrincipal extends JFrame {
         btnMesa8.setContentAreaFilled(false);   // Quita el fondo
         btnMesa8.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        ImageIcon botonMesa9 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa9Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
+        ImageIcon botonMesa9 = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa9.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
         ImageIcon botonMesa9Pres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonMesa9Pres.png").getImage().getScaledInstance(214,57, Image.SCALE_SMOOTH));
 
         btnMesa9.setText("");

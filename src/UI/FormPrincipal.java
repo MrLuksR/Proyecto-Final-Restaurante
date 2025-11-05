@@ -137,6 +137,7 @@ public class FormPrincipal extends JFrame {
         spnCantidadProdMesas.setPreferredSize(new Dimension(50, 25));
         cmbPersonal.setPreferredSize(new Dimension(100, 25));
         spnCantidadProdMesas.setValue(1);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         DefaultTableModel mdl = new DefaultTableModel();
 
@@ -813,6 +814,25 @@ public class FormPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int order = cmbOrdenarRegistro.getSelectedIndex();
                 mdlTblRegistro.setDataVector(datosRegistro(order), registroColumns);
+            }
+        });
+
+        // Listener de la ventana (para saber si el usuario se retira de la aplicación y desconectar con la base de datos)
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int opc = JOptionPane.showOptionDialog(null, "¿Seguro que quiere salir?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (opc == JOptionPane.YES_OPTION) {
+                    try {
+                        conn.close();
+                        System.exit(0);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    finally {
+                        System.exit(0);
+                    }
+                }
             }
         });
     }
@@ -1850,7 +1870,7 @@ public class FormPrincipal extends JFrame {
         if (conn == null) return;
         FormPrincipal ventanaForm = new FormPrincipal(conn, "PRUEBA DESDE MAIN");
         ventanaForm.setContentPane(ventanaForm.vntPrincipal);
-        ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         // Cambiar fondo(verde menta)
         ventanaForm.getContentPane().setBackground(Color.LIGHT_GRAY);

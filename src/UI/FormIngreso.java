@@ -125,6 +125,9 @@ public class FormIngreso extends JFrame {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "Error en la base de datos: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                    finally {
+                        System.exit(0);
+                    }
                 }
             }
         });
@@ -271,7 +274,7 @@ public class FormIngreso extends JFrame {
         ventanaForm.conn = conn;
         ventanaForm.crearTablas();
         ventanaForm.setContentPane(ventanaForm.vntIngreso);
-        ventanaForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         ventanaForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaForm.setVisible(true);
@@ -374,16 +377,23 @@ public class FormIngreso extends JFrame {
                     pst.close();
                 }
             }
-            String sqlAdmin = "INSERT INTO personal(ci_personal, nombre, apellido, user_name, contra) VALUES (5555, 'Admin', 'Admin', ?, ?)";
+            String sqlAdmin = """
+                INSERT INTO personal (ci_personal, nombre, apellido, user_name, contra)
+                SELECT 5555, 'Admin', 'Admin', ?, ?
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM personal WHERE user_name = ?
+                )
+                """;
             String user = "admin";
             String contra = "1234";
             PreparedStatement pst = conn.prepareStatement(sqlAdmin);
             pst.setString(1, user);
             pst.setString(2, contra);
+            pst.setString(3, user);
             pst.execute();
             pst.close();
 
-            JOptionPane.showMessageDialog(null, "En caso de no haber creado las tablas en la base de datos,\nse crearán automáticamente. Acceso al sistema con:\n" +
+            JOptionPane.showMessageDialog(null, "En caso de no haber creado las tablas en la base de datos, se crearán automáticamente.\nAcceso al sistema con:\n" +
                     "Usuario: "+ user + "\nContraseña: " + contra, "Información", JOptionPane.INFORMATION_MESSAGE);
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null,"Error:\n" + e,"Error",JOptionPane.ERROR_MESSAGE);

@@ -1,59 +1,112 @@
 @startuml
+title Diagrama UML - Sistema Restaurante (versión final)
 
-interface GeneralDAO{
-    long guardarUser(Usuario user)
-    long guardarCliente(Cliente cliente)
-    long guardarComida(Comida com)
-    long guardarBebida(Bebida beb)
-    long guardarPostre(Postre pos)
-    long guardarMesa(Mesa mesa)
+interface GeneralDAO {
+    + guardarCliente(Cliente cli) : long
+    + guardarPersonal(Personal per) : long
+    + guardarMesa(Mesa mesa) : long
+    + guardarReserva(Reserva reserva) : void
+    + guardarFactura(Factura fact) : void
+    + guardarComida(Comida com) : void
+    + guardarBebida(Bebida beb) : void
+    + guardarPostre(Postre pos) : void
 }
 
-class FinalDAO implements GeneralDAO{}
+class FinalDAO {
+    + conn : Connection
+    + FinalDAO(conn : Connection)
+    + guardarCliente(cli : Cliente) : long
+    + guardarPersonal(per : Personal) : long
+    + guardarComida(com : Comida) : long
+    + guardarBebida(beb : Bebida) : long
+    + guardarPostre(pos : Postre) : long
+    + guardarMesa(mesa : Mesa) : long
+    + guardarReserva(reserva : Reserva)
+}
+
+class ConexionBD {
+    + URL : String
+    + USER : String
+    + PASS : String
+    + getConnection() : Connection
+}
 
 class Cliente {
-    - nombre : "
-    - apellido : "
-    - telefonos : List<">
+    - nombre : String
+    - apellido : String
+    - telefonos : List<String>
 }
 
 class Mesa {
     - numMesa : int
-    - estado : "
+    - estado : boolean
     - capacidad : int
 }
 
 class Personal {
     - idPersonal : int
-    - nombre : "
-    - rol : "
+    - nombre : String
+    - apellido : String
+    - rol : String
+    - usuario : String
+    - password : String
 }
 
 abstract class Producto {
-    - nombre : "
-    - precio : float
-    - categoria : "
-    - stock : boolean
-    - descripcion : "
+    - nombre : String
+    - precio : double
+    - categoria : String
+    - stock : int
+    - descripcion : String
     + calcImp() : double
 }
 
-class Bebida extends Producto{
+class Bebida {
     + calcImp() : double
 }
 
-class Comida extends Producto{
+class Comida {
     + calcImp() : double
 }
 
-class Postre extends Producto{
+class Postre {
     + calcImp() : double
 }
 
-' ==== RELACIONES ====
+class Reserva {
+    - ciCliente : String
+    - apellido : String
+    - fecha : LocalDate
+    - hora : String
+    - mesa : int
+    - personas : int
+}
+
+class Factura {
+    - idFactura : int
+    - fecha : LocalDate
+    - total : double
+    - cliente : Cliente
+    - productos : List<Producto>
+}
+
+GeneralDAO <|.. FinalDAO
+Producto <|-- Bebida
+Producto <|-- Comida
+Producto <|-- Postre
+
+ConexionBD --> FinalDAO : provee conexión
 FinalDAO ..> Cliente : gestiona
 FinalDAO ..> Mesa : administra
 FinalDAO ..> Producto : guarda
+FinalDAO ..> Reserva : persiste
+FinalDAO ..> Factura : registra
+
+Reserva --> Cliente : pertenece a
+Reserva --> Mesa : reserva
+
+Factura --> Cliente : emitida a
+Factura --> Producto : incluye
 
 Cliente "1" -- "*" Mesa : reserva
 Personal "1" -- "*" Mesa : atiende

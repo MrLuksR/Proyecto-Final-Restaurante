@@ -1097,6 +1097,30 @@ public class FormPrincipal extends JFrame {
 
         // VENTANA CARTA
 
+        lblProdNombre.setForeground(new Color(44, 49, 58));
+        lblProdNombre.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblProdPrecio.setForeground(new Color(44, 49, 58));
+        lblProdPrecio.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblProdCateg.setForeground(new Color(44, 49, 58));
+        lblProdCateg.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblProdDescr.setForeground(new Color(44, 49, 58));
+        lblProdDescr.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblProdStock.setForeground(new Color(44, 49, 58));
+        lblProdStock.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblNomProdInfo.setForeground(new Color(44, 49, 58));
+        lblNomProdInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblPrecioProdInfo.setForeground(new Color(44, 49, 58));
+        lblPrecioProdInfo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblModStockProducto.setForeground(new Color(44, 49, 58));
+        lblModStockProducto.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
         btnAgregProdCarta.setText("");
         btnAgregProdCarta.setIcon(botonAgregarProducto);
         btnAgregProdCarta.setPressedIcon(botonAgregarProductoPres);

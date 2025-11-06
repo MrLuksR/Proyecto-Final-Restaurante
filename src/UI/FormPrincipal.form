@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="vntPrincipal" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="903" height="701"/>
+      <xy x="20" y="20" width="903" height="702"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -643,7 +643,7 @@
               </component>
             </children>
           </grid>
-          <grid id="b872e" binding="vtnCarta" custom-create="true" layout-manager="GridLayoutManager" row-count="21" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="b872e" binding="vtnCarta" custom-create="true" layout-manager="GridLayoutManager" row-count="22" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Carta"/>
@@ -890,9 +890,14 @@
                   <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
+              <vspacer id="bd92f">
+                <constraints>
+                  <grid row="21" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
-          <grid id="98d0a" binding="vtnHistorial" custom-create="true" layout-manager="GridLayoutManager" row-count="8" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="98d0a" binding="vtnHistorial" custom-create="true" layout-manager="GridLayoutManager" row-count="9" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Historial"/>
@@ -999,6 +1004,11 @@
                   <text value="Ordenar por:"/>
                 </properties>
               </component>
+              <vspacer id="50e2f">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>

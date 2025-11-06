@@ -695,7 +695,7 @@
                   <grid row="3" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="20"/>
+                  <font name="Times New Roman" size="20" style="1"/>
                   <text value="Agregar nuevo producto"/>
                 </properties>
               </component>
@@ -839,7 +839,7 @@
                   <component id="5d02e" class="javax.swing.JLabel" binding="lblProdSelecInfo">
                     <constraints/>
                     <properties>
-                      <font name="Tahoma" size="20"/>
+                      <font name="Times New Roman" size="20" style="1"/>
                       <text value="(selec. producto)"/>
                     </properties>
                   </component>
@@ -875,7 +875,8 @@
                   <grid row="14" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <font name="Tahoma" size="20"/>
+                  <enabled value="true"/>
+                  <font name="Times New Roman" size="20" style="1"/>
                   <text value="Modificar stock:"/>
                 </properties>
               </component>

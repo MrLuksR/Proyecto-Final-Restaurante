@@ -880,10 +880,10 @@ public class FormPrincipal extends JFrame {
         lblInfoHora.setForeground(new Color(44, 49, 58));
         lblInfoHora.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        cmbEstadosMesas.setBackground(Color.DARK_GRAY);
-        cmbEstadosMesas.setForeground(Color.WHITE);
+        //cmbEstadosMesas.setBackground(Color.DARK_GRAY);
+        //cmbEstadosMesas.setForeground(Color.WHITE);
 
-        scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
+        //scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
 
         tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
         tblReservas.setBackground(Color.DARK_GRAY);
@@ -1087,7 +1087,7 @@ public class FormPrincipal extends JFrame {
         btnCerrarPedidoMesa.setContentAreaFilled(false);   // Quita el fondo
         btnCerrarPedidoMesa.setFocusPainted(false);        // Quita el resaltado al enfocar
 
-        scrProductosMesas.getViewport().setBackground(Color.DARK_GRAY);
+        //scrProductosMesas.getViewport().setBackground(Color.DARK_GRAY);
 
         tblPedidosMesas.getTableHeader().setBackground(Color.LIGHT_GRAY);
         tblPedidosMesas.setBackground(Color.DARK_GRAY);
@@ -1095,6 +1095,31 @@ public class FormPrincipal extends JFrame {
         tblPedidosMesas.setFont(new Font("Times New Roman", Font.BOLD, 10));
         tblPedidosMesas.setGridColor(new Color(68, 74, 70));
 
+        // VENTANA CARTA
+
+        btnAgregProdCarta.setText("");
+        btnAgregProdCarta.setIcon(botonAgregarProducto);
+        btnAgregProdCarta.setPressedIcon(botonAgregarProductoPres);
+        btnAgregProdCarta.setBorderPainted(false);       // Quita el borde
+        btnAgregProdCarta.setContentAreaFilled(false);   // Quita el fondo
+        btnAgregProdCarta.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        btnElimProdCarta.setText("");
+        btnElimProdCarta.setIcon(botonEliminar);
+        btnElimProdCarta.setPressedIcon(botonEliminarPres);
+        btnElimProdCarta.setBorderPainted(false);       // Quita el borde
+        btnElimProdCarta.setContentAreaFilled(false);   // Quita el fondo
+        btnElimProdCarta.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        ImageIcon botonModificarStock = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonModificarStock.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+        ImageIcon botonModificarStockPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonModificarStockPres.png").getImage().getScaledInstance(301,37, Image.SCALE_SMOOTH));
+
+        btnModStock.setText("");
+        btnModStock.setIcon(botonModificarStock);
+        btnModStock.setPressedIcon(botonModificarStockPres);
+        btnModStock.setBorderPainted(false);       // Quita el borde
+        btnModStock.setContentAreaFilled(false);   // Quita el fondo
+        btnModStock.setFocusPainted(false);        // Quita el resaltado al enfocar
     }
 
 

@@ -885,11 +885,11 @@ public class FormPrincipal extends JFrame {
 
         //scrTablaRes.getViewport().setBackground(Color.DARK_GRAY);
 
-        tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
-        tblReservas.setBackground(Color.DARK_GRAY);
-        tblReservas.setForeground(Color.WHITE);
-        tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
-        tblReservas.setGridColor(new Color(68, 74, 70));
+        //tblReservas.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        //tblReservas.setBackground(Color.DARK_GRAY);
+        //tblReservas.setForeground(Color.WHITE);
+        //tblReservas.setFont(new Font("Times New Roman", Font.BOLD, 10));
+        //tblReservas.setGridColor(new Color(68, 74, 70));
 
         ImageIcon botonAgregar = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregar.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
         ImageIcon botonAgregarPres = new ImageIcon(new ImageIcon("C:/Users/" + username + "/IdeaProjects/Imagenes/botonAgregarPres.png").getImage().getScaledInstance(301,57, Image.SCALE_SMOOTH));
@@ -1107,11 +1107,11 @@ public class FormPrincipal extends JFrame {
 
         //scrProductosMesas.getViewport().setBackground(Color.DARK_GRAY);
 
-        tblPedidosMesas.getTableHeader().setBackground(Color.LIGHT_GRAY);
-        tblPedidosMesas.setBackground(Color.DARK_GRAY);
-        tblPedidosMesas.setForeground(Color.WHITE);
-        tblPedidosMesas.setFont(new Font("Times New Roman", Font.BOLD, 10));
-        tblPedidosMesas.setGridColor(new Color(68, 74, 70));
+        //tblPedidosMesas.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        //tblPedidosMesas.setBackground(Color.DARK_GRAY);
+        //tblPedidosMesas.setForeground(Color.WHITE);
+        //tblPedidosMesas.setFont(new Font("Times New Roman", Font.BOLD, 10));
+        //tblPedidosMesas.setGridColor(new Color(68, 74, 70));
 
         // VENTANA CARTA
 

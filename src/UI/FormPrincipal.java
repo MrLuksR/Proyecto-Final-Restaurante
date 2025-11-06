@@ -1144,6 +1144,24 @@ public class FormPrincipal extends JFrame {
         btnModStock.setBorderPainted(false);       // Quita el borde
         btnModStock.setContentAreaFilled(false);   // Quita el fondo
         btnModStock.setFocusPainted(false);        // Quita el resaltado al enfocar
+
+        // VENTANA HISTORIAL
+
+        lblTitTotalSinImpRegistro.setForeground(new Color(44, 49, 58));
+        lblTitTotalSinImpRegistro.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTotalSinImpRegistro.setForeground(new Color(44, 49, 58));
+        lblTotalSinImpRegistro.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTitTotalRegistro.setForeground(new Color(44, 49, 58));
+        lblTitTotalRegistro.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTotalRegistro.setForeground(new Color(44, 49, 58));
+        lblTotalRegistro.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        lblTitOrder.setForeground(new Color(44, 49, 58));
+        lblTitOrder.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
     }
 
 

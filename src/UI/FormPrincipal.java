@@ -1033,6 +1033,24 @@ public class FormPrincipal extends JFrame {
         btnMesa9.setContentAreaFilled(false);   // Quita el fondo
         btnMesa9.setFocusPainted(false);        // Quita el resaltado al enfocar
 
+        rbtnComida.setForeground(new Color(44, 49, 58));
+        rbtnComida.setBorderPainted(false);
+        rbtnComida.setContentAreaFilled(false);
+        rbtnComida.setFocusPainted(false);
+        rbtnComida.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        rbtnBebida.setForeground(new Color(44, 49, 58));
+        rbtnBebida.setBorderPainted(false);
+        rbtnBebida.setContentAreaFilled(false);
+        rbtnBebida.setFocusPainted(false);
+        rbtnBebida.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        rbtnPostre.setForeground(new Color(44, 49, 58));
+        rbtnPostre.setBorderPainted(false);
+        rbtnPostre.setContentAreaFilled(false);
+        rbtnPostre.setFocusPainted(false);
+        rbtnPostre.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
         btnElimProdMesas.setText("");
         btnElimProdMesas.setIcon(botonEliminar);
         btnElimProdMesas.setPressedIcon(botonEliminarPres);
